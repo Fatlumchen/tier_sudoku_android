@@ -12,6 +12,11 @@
     <string name="app_badge">Spiel · Lern · Spaß</string>
     <string name="animal_sudoku">Tier-Sudoku 🐾</string>
     <string name="animal_subtitle">Finde das Tier, das in der Reihe fehlt.</string>
+    <string name="choose_world">Wähle deine Tierwelt</string>
+    <string name="world_pets">Tierfreunde</string>
+    <string name="world_pets_hint">Hund, Katze, Hase und Fuchs.</string>
+    <string name="world_farm">Bauernhof</string>
+    <string name="world_farm_hint">Kuh, Schwein, Huhn und Schaf.</string>
     <string name="classic_sudoku">Klassisches Sudoku 🔢</string>
     <string name="classic_subtitle">Knoble mit Zahlen in zwei Größen.</string>
     <string name="choose_size">Wie groß soll es sein?</string>

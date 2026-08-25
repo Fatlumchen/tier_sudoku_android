@@ -27,10 +27,15 @@ import java.util.List;
 import java.util.Random;
 
 public final class MainActivity extends Activity {
-    private static final String[] ANIMAL_NAMES = {"Hund", "Katze", "Hase", "Fuchs"};
-    private static final int[] ANIMAL_DRAWABLES = {
+    private static final String[] PET_NAMES = {"Hund", "Katze", "Hase", "Fuchs"};
+    private static final int[] PET_DRAWABLES = {
             R.drawable.animal_dog, R.drawable.animal_cat,
             R.drawable.animal_rabbit, R.drawable.animal_fox
+    };
+    private static final String[] FARM_NAMES = {"Kuh", "Schwein", "Huhn", "Schaf"};
+    private static final int[] FARM_DRAWABLES = {
+            R.drawable.animal_cow, R.drawable.animal_pig,
+            R.drawable.animal_chicken, R.drawable.animal_sheep
     };
     private static final String STATE_STARS = "stars";
     private static final String PREFS_STATS = "game_stats";
@@ -103,12 +108,30 @@ public final class MainActivity extends Activity {
         content.addView(title(getString(R.string.choose_game)), margins(dp(8)));
         content.addView(label(getString(R.string.choose_game_hint), 17), margins(dp(4)));
         content.addView(gameCard("🐾", getString(R.string.animal_sudoku),
-                getString(R.string.animal_subtitle), view -> showAnimalGame()), margins(dp(20)));
+                getString(R.string.animal_subtitle), view -> showAnimalWorldSelection()), margins(dp(20)));
         content.addView(gameCard("123", getString(R.string.classic_sudoku),
                 getString(R.string.classic_subtitle), view -> showSizeSelection()), margins(dp(5)));
         content.addView(actionButton(getString(R.string.my_progress), view -> showProgress()),
                 margins(dp(18)));
         content.addView(soundButton(), margins(dp(4)));
+        setPage(content);
+    }
+
+    private void showAnimalWorldSelection() {
+        stopTimerWithoutResult();
+        LinearLayout content = page();
+        content.addView(badge(getString(R.string.animal_sudoku)), margins(dp(4)));
+        content.addView(title(getString(R.string.choose_world)), margins(dp(8)));
+        content.addView(gameCard("🏡", getString(R.string.world_pets),
+                getString(R.string.world_pets_hint),
+                view -> showAnimalGame(PET_NAMES, PET_DRAWABLES, "animal",
+                        getString(R.string.world_pets), Color.rgb(239, 248, 243))), margins(dp(14)));
+        content.addView(gameCard("🌾", getString(R.string.world_farm),
+                getString(R.string.world_farm_hint),
+                view -> showAnimalGame(FARM_NAMES, FARM_DRAWABLES, "animal_farm",
+                        getString(R.string.world_farm), Color.rgb(255, 245, 218))), margins(dp(5)));
+        content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
+                margins(dp(18)));
         setPage(content);
     }
 
@@ -122,6 +145,7 @@ public final class MainActivity extends Activity {
         content.addView(streakPanel(stats.getInt(PREFS_CURRENT_STREAK, 0),
                 stats.getInt(PREFS_BEST_STREAK, 0)), margins(dp(6)));
         content.addView(progressCard("🐾", getString(R.string.animal_sudoku), "animal"), margins(dp(14)));
+        content.addView(progressCard("🌾", getString(R.string.world_farm), "animal_farm"), margins(dp(5)));
         content.addView(progressCard("4×4", getString(R.string.small_sudoku), "classic_2"), margins(dp(5)));
         content.addView(progressCard("★", getString(R.string.progress_9_easy),
                 "classic_3_easy"), margins(dp(5)));
@@ -180,10 +204,11 @@ public final class MainActivity extends Activity {
         setPage(content);
     }
 
-    private void showAnimalGame() {
+    private void showAnimalGame(String[] animalNames, int[] animalDrawables, String statsKey,
+            String worldName, int boardColor) {
         GameEngine.Puzzle puzzle = animalEngine.nextPuzzle();
         LinearLayout content = page();
-        content.addView(title(getString(R.string.animal_sudoku)), margins(dp(3)));
+        content.addView(title(worldName), margins(dp(3)));
         TextView progress = label(getString(R.string.progress, stars), 18);
         progress.setTextColor(green());
         progress.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
@@ -196,7 +221,7 @@ public final class MainActivity extends Activity {
         GridLayout board = new GridLayout(this);
         board.setColumnCount(GameEngine.SIZE);
         board.setPadding(dp(7), dp(7), dp(7), dp(7));
-        board.setBackground(rounded(Color.WHITE, dp(18), 0, 0));
+        board.setBackground(rounded(boardColor, dp(18), 0, 0));
         board.setElevation(dp(5));
         for (int row = 0; row < GameEngine.SIZE; row++) {
             for (int column = 0; column < GameEngine.SIZE; column++) {
@@ -210,10 +235,10 @@ public final class MainActivity extends Activity {
                     cell = missingCell;
                 } else {
                     ImageView animal = new ImageView(this);
-                    animal.setImageResource(ANIMAL_DRAWABLES[puzzle.valueAt(row, column)]);
+                    animal.setImageResource(animalDrawables[puzzle.valueAt(row, column)]);
                     animal.setPadding(dp(8), dp(8), dp(8), dp(8));
-                    animal.setBackgroundColor(Color.WHITE);
-                    animal.setContentDescription(ANIMAL_NAMES[puzzle.valueAt(row, column)]);
+                    animal.setBackgroundColor(boardColor);
+                    animal.setContentDescription(animalNames[puzzle.valueAt(row, column)]);
                     cell = animal;
                 }
                 board.addView(cell, cellParams(dp(68), row, column, 2));
@@ -225,15 +250,15 @@ public final class MainActivity extends Activity {
         boolean[] solved = {false};
         LinearLayout choices = new LinearLayout(this);
         choices.setGravity(Gravity.CENTER);
-        for (int animal = 0; animal < ANIMAL_DRAWABLES.length; animal++) {
+        for (int animal = 0; animal < animalDrawables.length; animal++) {
             final int choice = animal;
             ImageButton button = new ImageButton(this);
-            button.setImageResource(ANIMAL_DRAWABLES[animal]);
+            button.setImageResource(animalDrawables[animal]);
             button.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             button.setPadding(dp(10), dp(10), dp(10), dp(10));
             button.setBackground(buttonSelector(Color.WHITE, Color.rgb(242, 247, 244), dp(16)));
             button.setElevation(dp(2));
-            button.setContentDescription(getString(R.string.animal_button, ANIMAL_NAMES[animal]));
+            button.setContentDescription(getString(R.string.animal_button, animalNames[animal]));
             button.setOnClickListener(view -> {
                 if (puzzle.accepts(choice) && !solved[0]) {
                     solved[0] = true;
@@ -244,7 +269,8 @@ public final class MainActivity extends Activity {
                     playSuccessSound();
                     feedback.setText(R.string.great);
                     feedback.setTextColor(green());
-                    feedback.postDelayed(this::showAnimalGame, 900);
+                    feedback.postDelayed(() -> showAnimalGame(animalNames, animalDrawables,
+                            statsKey, worldName, boardColor), 900);
                 } else if (!solved[0]) {
                     resetCurrentStreak();
                     playErrorSound();
@@ -256,11 +282,13 @@ public final class MainActivity extends Activity {
         }
         content.addView(choices, margins(dp(10)));
         content.addView(feedback, margins(dp(4)));
-        content.addView(actionButton(getString(R.string.new_game), view -> showAnimalGame()), margins(dp(8)));
+        content.addView(actionButton(getString(R.string.new_game),
+                view -> showAnimalGame(animalNames, animalDrawables, statsKey, worldName, boardColor)),
+                margins(dp(8)));
         content.addView(secondaryButton(getString(R.string.back_to_selection), view -> showGameSelection()),
                 margins(dp(5)));
         setPage(content);
-        startTimer("animal");
+        startTimer(statsKey);
     }
 
     private void showClassicGame(int boxSize, ClassicSudokuEngine.Difficulty difficulty) {
