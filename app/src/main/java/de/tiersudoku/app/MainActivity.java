@@ -91,10 +91,30 @@ public final class MainActivity extends Activity {
         content.addView(title(getString(R.string.choose_size)), margins(dp(8)));
         content.addView(label(getString(R.string.size_explanation), 18), margins(dp(10)));
         content.addView(gameCard("4×4", getString(R.string.small_sudoku),
-                getString(R.string.small_subtitle), view -> showClassicGame(2)), margins(dp(14)));
+                getString(R.string.small_subtitle),
+                view -> showClassicGame(2, ClassicSudokuEngine.Difficulty.EASY)), margins(dp(14)));
         content.addView(gameCard("9×9", getString(R.string.large_sudoku),
-                getString(R.string.large_subtitle), view -> showClassicGame(3)), margins(dp(5)));
+                getString(R.string.large_subtitle), view -> showDifficultySelection()), margins(dp(5)));
         content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
+                margins(dp(18)));
+        setPage(content);
+    }
+
+    private void showDifficultySelection() {
+        stopTimerWithoutResult();
+        LinearLayout content = page();
+        content.addView(badge(getString(R.string.large_sudoku)), margins(dp(4)));
+        content.addView(title(getString(R.string.choose_difficulty)), margins(dp(8)));
+        content.addView(gameCard("★", getString(R.string.difficulty_easy),
+                getString(R.string.difficulty_easy_hint),
+                view -> showClassicGame(3, ClassicSudokuEngine.Difficulty.EASY)), margins(dp(14)));
+        content.addView(gameCard("★★", getString(R.string.difficulty_medium),
+                getString(R.string.difficulty_medium_hint),
+                view -> showClassicGame(3, ClassicSudokuEngine.Difficulty.MEDIUM)), margins(dp(5)));
+        content.addView(gameCard("★★★", getString(R.string.difficulty_hard),
+                getString(R.string.difficulty_hard_hint),
+                view -> showClassicGame(3, ClassicSudokuEngine.Difficulty.HARD)), margins(dp(5)));
+        content.addView(secondaryButton(getString(R.string.back), view -> showSizeSelection()),
                 margins(dp(18)));
         setPage(content);
     }
@@ -165,12 +185,14 @@ public final class MainActivity extends Activity {
         startTimer("animal");
     }
 
-    private void showClassicGame(int boxSize) {
-        classicPuzzle = classicEngine.nextPuzzle(boxSize);
+    private void showClassicGame(int boxSize, ClassicSudokuEngine.Difficulty difficulty) {
+        classicPuzzle = classicEngine.nextPuzzle(boxSize, difficulty);
         selectedRow = -1;
         selectedColumn = -1;
         LinearLayout content = page();
-        content.addView(title(getString(R.string.classic_title, classicPuzzle.size)), margins(dp(3)));
+        String difficultyName = difficultyName(difficulty);
+        content.addView(title(getString(R.string.classic_title_with_difficulty,
+                classicPuzzle.size, difficultyName)), margins(dp(3)));
         content.addView(timerPanel(), margins(dp(4)));
         content.addView(label(getString(R.string.classic_instruction), 17), margins(dp(5)));
         classicBoard = new GridLayout(this);
@@ -194,13 +216,28 @@ public final class MainActivity extends Activity {
             numbers.addView(button, new LinearLayout.LayoutParams(dp(58), dp(52)));
         }
         content.addView(numbers, margins(dp(5)));
-        content.addView(actionButton(getString(R.string.new_game), view -> showClassicGame(boxSize)),
+        content.addView(actionButton(getString(R.string.new_game),
+                view -> showClassicGame(boxSize, difficulty)),
                 margins(dp(6)));
         content.addView(secondaryButton(getString(R.string.back_to_selection), view -> showGameSelection()),
                 margins(dp(4)));
         setPage(content);
         renderClassicBoard();
-        startTimer("classic_" + boxSize);
+        String timerStatsKey = boxSize == 2 ? "classic_2"
+                : "classic_3_" + difficulty.name().toLowerCase(java.util.Locale.ROOT);
+        startTimer(timerStatsKey);
+    }
+
+    private String difficultyName(ClassicSudokuEngine.Difficulty difficulty) {
+        switch (difficulty) {
+            case MEDIUM:
+                return getString(R.string.difficulty_medium);
+            case HARD:
+                return getString(R.string.difficulty_hard);
+            case EASY:
+            default:
+                return getString(R.string.difficulty_easy);
+        }
     }
 
     private void renderClassicBoard() {

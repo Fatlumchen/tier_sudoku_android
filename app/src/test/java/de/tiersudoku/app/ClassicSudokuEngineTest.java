@@ -18,6 +18,28 @@ public final class ClassicSudokuEngineTest {
     }
 
     @Test
+    public void randomizesSymbolsInsteadOfShowingOrderedRows() {
+        ClassicSudokuEngine.Puzzle puzzle = new ClassicSudokuEngine(new Random(14)).nextPuzzle(3);
+        boolean ordered = true;
+        for (int column = 0; column < puzzle.size; column++) {
+            ordered &= puzzle.solutionAt(0, column) == column + 1;
+        }
+        assertFalse(ordered);
+    }
+
+    @Test
+    public void harderPuzzlesHaveFewerGivenNumbers() {
+        int easy = blankCount(new ClassicSudokuEngine(new Random(21)).nextPuzzle(
+                3, ClassicSudokuEngine.Difficulty.EASY));
+        int medium = blankCount(new ClassicSudokuEngine(new Random(21)).nextPuzzle(
+                3, ClassicSudokuEngine.Difficulty.MEDIUM));
+        int hard = blankCount(new ClassicSudokuEngine(new Random(21)).nextPuzzle(
+                3, ClassicSudokuEngine.Difficulty.HARD));
+        assertTrue(easy < medium);
+        assertTrue(medium < hard);
+    }
+
+    @Test
     public void onlyCorrectNumbersFillBlankCells() {
         ClassicSudokuEngine.Puzzle puzzle = new ClassicSudokuEngine(new Random(8)).nextPuzzle(2);
         for (int row = 0; row < puzzle.size; row++) {
@@ -62,5 +84,17 @@ public final class ClassicSudokuEngineTest {
                 assertEquals(puzzle.size, box.size());
             }
         }
+    }
+
+    private int blankCount(ClassicSudokuEngine.Puzzle puzzle) {
+        int blanks = 0;
+        for (int row = 0; row < puzzle.size; row++) {
+            for (int column = 0; column < puzzle.size; column++) {
+                if (puzzle.isBlank(row, column)) {
+                    blanks++;
+                }
+            }
+        }
+        return blanks;
     }
 }

@@ -20,9 +20,17 @@
     <string name="small_subtitle">Ein schneller Einstieg mit 4×4 Feldern.</string>
     <string name="large_sudoku">Groß: 3×3 Kästchen</string>
     <string name="large_subtitle">Das bekannte Sudoku mit 9×9 Feldern.</string>
+    <string name="choose_difficulty">Wähle deine Schwierigkeit</string>
+    <string name="difficulty_easy">Leicht</string>
+    <string name="difficulty_easy_hint">Viele Vorgaben für einen entspannten Einstieg.</string>
+    <string name="difficulty_medium">Mittel</string>
+    <string name="difficulty_medium_hint">Weniger Vorgaben und mehr zum Kombinieren.</string>
+    <string name="difficulty_hard">Schwer</string>
+    <string name="difficulty_hard_hint">Nur wenige Vorgaben für Sudoku-Profis.</string>
     <string name="back">Zurück</string>
     <string name="back_to_selection">Zur Spielauswahl</string>
     <string name="classic_title">Sudoku %1$d×%1$d</string>
+    <string name="classic_title_with_difficulty">Sudoku %1$d×%1$d · %2$s</string>
     <string name="classic_instruction">Tippe auf ein leeres Feld und dann auf die passende Zahl.</string>
     <string name="select_cell">Wähle ein leeres Feld aus.</string>
     <string name="choose_number">Welche Zahl gehört hierhin?</string>

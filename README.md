@@ -7,7 +7,9 @@ kann zwischen zwei Spielarten gewählt werden:
   Tier aus und sammelt Sterne.
 - Beim **klassischen Sudoku** werden Zahlen ergänzt. Zur Auswahl stehen eine leichte
   Variante mit 2×2-Blöcken (4×4 Felder) und die bekannte Variante mit 3×3-Blöcken
-  (9×9 Felder).
+  (9×9 Felder). Das 9×9-Sudoku bietet die Stufen Leicht, Mittel und Schwer. Zahlen,
+  Zeilen und Spalten werden für jede Runde neu gemischt; jedes Rätsel besitzt genau
+  eine Lösung.
 
 ## Warum dieses MVP?
 
