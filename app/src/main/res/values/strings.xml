@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Tier-Sudoku</string>
+    <string name="headline">Tier-Sudoku</string>
+    <string name="instruction">Welches Tier fehlt?</string>
+    <string name="new_game">Neue Runde</string>
+    <string name="great">Super gemacht! 🎉</string>
+    <string name="try_again">Fast! Versuch es noch einmal.</string>
+    <string name="progress">Sterne: %1$d</string>
+    <string name="animal_button">Tier %1$s auswählen</string>
+    <string name="choose_game">Was möchtest du spielen?</string>
+    <string name="choose_game_hint">Wähle dein Lieblingsspiel aus.</string>
+    <string name="app_badge">Spiel · Lern · Spaß</string>
+    <string name="animal_sudoku">Tier-Sudoku 🐾</string>
+    <string name="animal_subtitle">Finde das Tier, das in der Reihe fehlt.</string>
+    <string name="classic_sudoku">Klassisches Sudoku 🔢</string>
+    <string name="classic_subtitle">Knoble mit Zahlen in zwei Größen.</string>
+    <string name="choose_size">Wie groß soll es sein?</string>
+    <string name="size_explanation">2×2 Kästchen ergeben ein 4×4 Sudoku.\n3×3 Kästchen ergeben ein 9×9 Sudoku.</string>
+    <string name="small_sudoku">Leicht: 2×2 Kästchen</string>
+    <string name="small_subtitle">Ein schneller Einstieg mit 4×4 Feldern.</string>
+    <string name="large_sudoku">Groß: 3×3 Kästchen</string>
+    <string name="large_subtitle">Das bekannte Sudoku mit 9×9 Feldern.</string>
+    <string name="back">Zurück</string>
+    <string name="back_to_selection">Zur Spielauswahl</string>
+    <string name="classic_title">Sudoku %1$d×%1$d</string>
+    <string name="classic_instruction">Tippe auf ein leeres Feld und dann auf die passende Zahl.</string>
+    <string name="select_cell">Wähle ein leeres Feld aus.</string>
+    <string name="choose_number">Welche Zahl gehört hierhin?</string>
+    <string name="select_cell_first">Bitte zuerst ein leeres Feld auswählen.</string>
+    <string name="correct">Richtig! Weiter so.</string>
+    <string name="wrong_number">Diese Zahl passt hier noch nicht.</string>
+    <string name="sudoku_complete">Geschafft! Das Sudoku ist vollständig! 🎉</string>
+    <string name="current_time">⏱ Zeit: %1$s</string>
+    <string name="best_time">🏆 Beste: %1$s</string>
+    <string name="new_best_time">🏆 Neuer Rekord: %1$s</string>
+</resources>
