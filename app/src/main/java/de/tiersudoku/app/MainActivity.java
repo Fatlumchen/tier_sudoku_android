@@ -37,6 +37,11 @@ public final class MainActivity extends Activity {
             R.drawable.animal_cow, R.drawable.animal_pig,
             R.drawable.animal_chicken, R.drawable.animal_sheep
     };
+    private static final String[] OCEAN_NAMES = {"Fisch", "Krake", "Schildkröte", "Wal"};
+    private static final int[] OCEAN_DRAWABLES = {
+            R.drawable.animal_fish, R.drawable.animal_octopus,
+            R.drawable.animal_turtle, R.drawable.animal_whale
+    };
     private static final String STATE_STARS = "stars";
     private static final String PREFS_STATS = "game_stats";
     private static final String PREFS_STARS = "stars_total";
@@ -130,6 +135,10 @@ public final class MainActivity extends Activity {
                 getString(R.string.world_farm_hint),
                 view -> showAnimalGame(FARM_NAMES, FARM_DRAWABLES, "animal_farm",
                         getString(R.string.world_farm), Color.rgb(255, 245, 218))), margins(dp(5)));
+        content.addView(gameCard("🌊", getString(R.string.world_ocean),
+                getString(R.string.world_ocean_hint),
+                view -> showAnimalGame(OCEAN_NAMES, OCEAN_DRAWABLES, "animal_ocean",
+                        getString(R.string.world_ocean), Color.rgb(225, 245, 251))), margins(dp(5)));
         content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
                 margins(dp(18)));
         setPage(content);
@@ -146,6 +155,7 @@ public final class MainActivity extends Activity {
                 stats.getInt(PREFS_BEST_STREAK, 0)), margins(dp(6)));
         content.addView(progressCard("🐾", getString(R.string.animal_sudoku), "animal"), margins(dp(14)));
         content.addView(progressCard("🌾", getString(R.string.world_farm), "animal_farm"), margins(dp(5)));
+        content.addView(progressCard("🌊", getString(R.string.world_ocean), "animal_ocean"), margins(dp(5)));
         content.addView(progressCard("4×4", getString(R.string.small_sudoku), "classic_2"), margins(dp(5)));
         content.addView(progressCard("★", getString(R.string.progress_9_easy),
                 "classic_3_easy"), margins(dp(5)));

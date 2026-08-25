@@ -20,8 +20,9 @@ kann zwischen zwei Spielarten gewählt werden:
   und benötigen keine extern lizenzierten Bilddateien.
 - Die Fortschrittsseite enthält Serien und vier lokal freischaltbare Abzeichen für
   gelöste Runden, gesammelte Sterne und fehlerfreies Spielen.
-- Das Tier-Sudoku bietet die Welten **Tierfreunde** und **Bauernhof** mit insgesamt
-  acht eigenen Vektortieren, eigener Farbwelt und getrennten Bestzeiten.
+- Das Tier-Sudoku bietet die Welten **Tierfreunde**, **Bauernhof** und
+  **Unterwasserwelt** mit insgesamt zwölf eigenen Vektortieren, eigener Farbwelt und
+  getrennten Bestzeiten.
 
 > Falls im Emulator kein Ton hörbar ist: Im Android-Emulator die Lautsprecher-Schaltfläche
 > aktivieren und unter Android **Einstellungen → Ton & Vibration → Medienlautstärke** prüfen.
@@ -184,8 +185,8 @@ Die Testergebnisse liegen anschließend unter `app/build/reports/tests/`.
 
 ## Sinnvolle nächste Schritte
 
-1. Eine Unterwasser-Tierwelt und passende Hintergrundillustrationen ergänzen.
-2. Weitere Abzeichen und optionale tägliche Herausforderungen ergänzen.
+1. Optionale tägliche Herausforderungen mit wechselnden Spielarten ergänzen.
+2. Weitere Abzeichen und kindgerechte Belohnungsanimationen ergänzen.
 3. Elternbereich mit einer für Kinder nicht lösbaren Schranke entwickeln.
 4. Einmaligen In-App-Kauf über Google Play Billing integrieren.
 5. Barrierefreiheit, Geräte-Tests und eine deutsche Datenschutzerklärung abschließen.
