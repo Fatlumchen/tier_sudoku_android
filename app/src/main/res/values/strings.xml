@@ -9,12 +9,17 @@
     <string name="animal_button">Tier %1$s auswählen</string>
     <string name="choose_game">Was möchtest du spielen?</string>
     <string name="choose_game_hint">Wähle dein Lieblingsspiel aus.</string>
+    <string name="app_badge">Spiel · Lern · Spaß</string>
     <string name="animal_sudoku">Tier-Sudoku 🐾</string>
+    <string name="animal_subtitle">Finde das Tier, das in der Reihe fehlt.</string>
     <string name="classic_sudoku">Klassisches Sudoku 🔢</string>
+    <string name="classic_subtitle">Knoble mit Zahlen in zwei Größen.</string>
     <string name="choose_size">Wie groß soll es sein?</string>
     <string name="size_explanation">2×2 Kästchen ergeben ein 4×4 Sudoku.\n3×3 Kästchen ergeben ein 9×9 Sudoku.</string>
     <string name="small_sudoku">Leicht: 2×2 Kästchen</string>
+    <string name="small_subtitle">Ein schneller Einstieg mit 4×4 Feldern.</string>
     <string name="large_sudoku">Groß: 3×3 Kästchen</string>
+    <string name="large_subtitle">Das bekannte Sudoku mit 9×9 Feldern.</string>
     <string name="back">Zurück</string>
     <string name="back_to_selection">Zur Spielauswahl</string>
     <string name="classic_title">Sudoku %1$d×%1$d</string>
@@ -26,4 +31,3 @@
     <string name="wrong_number">Diese Zahl passt hier noch nicht.</string>
     <string name="sudoku_complete">Geschafft! Das Sudoku ist vollständig! 🎉</string>
 </resources>
-

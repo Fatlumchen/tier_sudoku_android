@@ -2,6 +2,9 @@ package de.tiersudoku.app;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -29,6 +32,8 @@ public final class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(Color.rgb(25, 67, 54));
+        getWindow().setNavigationBarColor(cream());
         stars = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_STARS);
         showGameSelection();
     }
@@ -41,24 +46,26 @@ public final class MainActivity extends Activity {
 
     private void showGameSelection() {
         LinearLayout content = page();
-        content.addView(title(getString(R.string.choose_game)));
-        content.addView(label(getString(R.string.choose_game_hint), 18), margins(dp(8)));
-        content.addView(actionButton(getString(R.string.animal_sudoku), view -> showAnimalGame()),
-                margins(dp(18)));
-        content.addView(actionButton(getString(R.string.classic_sudoku), view -> showSizeSelection()),
-                margins(dp(8)));
+        content.addView(badge(getString(R.string.app_badge)), margins(dp(4)));
+        content.addView(title(getString(R.string.choose_game)), margins(dp(8)));
+        content.addView(label(getString(R.string.choose_game_hint), 17), margins(dp(4)));
+        content.addView(gameCard("🐾", getString(R.string.animal_sudoku),
+                getString(R.string.animal_subtitle), view -> showAnimalGame()), margins(dp(20)));
+        content.addView(gameCard("123", getString(R.string.classic_sudoku),
+                getString(R.string.classic_subtitle), view -> showSizeSelection()), margins(dp(5)));
         setPage(content);
     }
 
     private void showSizeSelection() {
         LinearLayout content = page();
-        content.addView(title(getString(R.string.choose_size)));
+        content.addView(badge(getString(R.string.classic_sudoku)), margins(dp(4)));
+        content.addView(title(getString(R.string.choose_size)), margins(dp(8)));
         content.addView(label(getString(R.string.size_explanation), 18), margins(dp(10)));
-        content.addView(actionButton(getString(R.string.small_sudoku), view -> showClassicGame(2)),
-                margins(dp(14)));
-        content.addView(actionButton(getString(R.string.large_sudoku), view -> showClassicGame(3)),
-                margins(dp(8)));
-        content.addView(actionButton(getString(R.string.back), view -> showGameSelection()),
+        content.addView(gameCard("4×4", getString(R.string.small_sudoku),
+                getString(R.string.small_subtitle), view -> showClassicGame(2)), margins(dp(14)));
+        content.addView(gameCard("9×9", getString(R.string.large_sudoku),
+                getString(R.string.large_subtitle), view -> showClassicGame(3)), margins(dp(5)));
+        content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
                 margins(dp(18)));
         setPage(content);
     }
@@ -66,13 +73,20 @@ public final class MainActivity extends Activity {
     private void showAnimalGame() {
         GameEngine.Puzzle puzzle = animalEngine.nextPuzzle();
         LinearLayout content = page();
-        content.addView(title(getString(R.string.animal_sudoku)));
+        content.addView(title(getString(R.string.animal_sudoku)), margins(dp(3)));
         TextView progress = label(getString(R.string.progress, stars), 18);
+        progress.setTextColor(green());
+        progress.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        progress.setBackground(rounded(Color.rgb(230, 243, 235), dp(18), 0, 0));
+        progress.setPadding(dp(18), dp(7), dp(18), dp(7));
         content.addView(progress, margins(dp(6)));
         content.addView(label(getString(R.string.instruction), 22), margins(dp(8)));
 
         GridLayout board = new GridLayout(this);
         board.setColumnCount(GameEngine.SIZE);
+        board.setPadding(dp(7), dp(7), dp(7), dp(7));
+        board.setBackground(rounded(Color.WHITE, dp(18), 0, 0));
+        board.setElevation(dp(5));
         for (int row = 0; row < GameEngine.SIZE; row++) {
             for (int column = 0; column < GameEngine.SIZE; column++) {
                 boolean missing = row == puzzle.missingRow && column == puzzle.missingColumn;
@@ -92,6 +106,9 @@ public final class MainActivity extends Activity {
             Button button = new Button(this);
             button.setText(ANIMALS[animal]);
             button.setTextSize(29);
+            button.setAllCaps(false);
+            button.setBackground(buttonSelector(Color.WHITE, Color.rgb(242, 247, 244), dp(16)));
+            button.setElevation(dp(2));
             button.setContentDescription(getString(R.string.animal_button, ANIMALS[animal]));
             button.setOnClickListener(view -> {
                 if (puzzle.accepts(choice)) {
@@ -109,7 +126,7 @@ public final class MainActivity extends Activity {
         content.addView(choices, margins(dp(10)));
         content.addView(feedback, margins(dp(4)));
         content.addView(actionButton(getString(R.string.new_game), view -> showAnimalGame()), margins(dp(8)));
-        content.addView(actionButton(getString(R.string.back_to_selection), view -> showGameSelection()),
+        content.addView(secondaryButton(getString(R.string.back_to_selection), view -> showGameSelection()),
                 margins(dp(5)));
         setPage(content);
     }
@@ -119,10 +136,11 @@ public final class MainActivity extends Activity {
         selectedRow = -1;
         selectedColumn = -1;
         LinearLayout content = page();
-        content.addView(title(getString(R.string.classic_title, classicPuzzle.size)));
+        content.addView(title(getString(R.string.classic_title, classicPuzzle.size)), margins(dp(3)));
         content.addView(label(getString(R.string.classic_instruction), 17), margins(dp(5)));
         classicBoard = new GridLayout(this);
         classicBoard.setColumnCount(classicPuzzle.size);
+        classicBoard.setElevation(dp(6));
         content.addView(classicBoard, margins(dp(6)));
         classicFeedback = label(getString(R.string.select_cell), 17);
         content.addView(classicFeedback, margins(dp(4)));
@@ -134,13 +152,16 @@ public final class MainActivity extends Activity {
             Button button = new Button(this);
             button.setText(String.valueOf(number));
             button.setTextSize(18);
+            button.setTextColor(Color.WHITE);
+            button.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            button.setBackground(buttonSelector(green(), Color.rgb(31, 84, 65), dp(14)));
             button.setOnClickListener(view -> enterClassicNumber(choice));
             numbers.addView(button, new LinearLayout.LayoutParams(dp(58), dp(52)));
         }
         content.addView(numbers, margins(dp(5)));
         content.addView(actionButton(getString(R.string.new_game), view -> showClassicGame(boxSize)),
                 margins(dp(6)));
-        content.addView(actionButton(getString(R.string.back_to_selection), view -> showGameSelection()),
+        content.addView(secondaryButton(getString(R.string.back_to_selection), view -> showGameSelection()),
                 margins(dp(4)));
         setPage(content);
         renderClassicBoard();
@@ -201,8 +222,11 @@ public final class MainActivity extends Activity {
         LinearLayout content = new LinearLayout(this);
         content.setOrientation(LinearLayout.VERTICAL);
         content.setGravity(Gravity.CENTER_HORIZONTAL);
-        content.setPadding(dp(16), dp(24), dp(16), dp(24));
-        content.setBackgroundColor(Color.rgb(255, 248, 231));
+        content.setPadding(dp(20), dp(28), dp(20), dp(32));
+        GradientDrawable background = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{Color.rgb(247, 252, 249), cream()});
+        content.setBackground(background);
         return content;
     }
 
@@ -211,12 +235,15 @@ public final class MainActivity extends Activity {
         scroll.setFillViewport(true);
         scroll.addView(content);
         setContentView(scroll);
+        content.setAlpha(0f);
+        content.setTranslationY(dp(8));
+        content.animate().alpha(1f).translationY(0f).setDuration(220).start();
     }
 
     private TextView title(String text) {
-        TextView title = label(text, 30);
+        TextView title = label(text, 31);
         title.setTextColor(Color.rgb(35, 74, 58));
-        title.setTypeface(null, android.graphics.Typeface.BOLD);
+        title.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
         return title;
     }
 
@@ -224,9 +251,98 @@ public final class MainActivity extends Activity {
         Button button = new Button(this);
         button.setText(text);
         button.setTextSize(17);
+        button.setTextColor(Color.WHITE);
+        button.setAllCaps(false);
+        button.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        button.setBackground(buttonSelector(green(), Color.rgb(31, 84, 65), dp(16)));
+        button.setElevation(dp(3));
         button.setOnClickListener(listener);
         button.setMinWidth(dp(230));
+        button.setMinHeight(dp(54));
         return button;
+    }
+
+    private Button secondaryButton(String text, View.OnClickListener listener) {
+        Button button = actionButton(text, listener);
+        button.setTextColor(green());
+        button.setElevation(0);
+        button.setBackground(buttonSelector(Color.TRANSPARENT,
+                Color.rgb(230, 243, 235), dp(16), green(), dp(1)));
+        return button;
+    }
+
+    private View gameCard(String icon, String heading, String subtitle, View.OnClickListener listener) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(dp(18), dp(17), dp(18), dp(17));
+        card.setBackground(buttonSelector(Color.WHITE, Color.rgb(239, 248, 243), dp(22)));
+        card.setElevation(dp(5));
+        card.setClickable(true);
+        card.setFocusable(true);
+        card.setOnClickListener(listener);
+        card.setContentDescription(heading + ". " + subtitle);
+
+        TextView iconView = label(icon, icon.length() > 3 ? 22 : 29);
+        iconView.setTextColor(green());
+        iconView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        iconView.setGravity(Gravity.CENTER);
+        iconView.setBackground(rounded(Color.rgb(230, 243, 235), dp(18), 0, 0));
+        card.addView(iconView, new LinearLayout.LayoutParams(dp(70), dp(70)));
+
+        LinearLayout copy = new LinearLayout(this);
+        copy.setOrientation(LinearLayout.VERTICAL);
+        copy.setPadding(dp(16), 0, dp(6), 0);
+        TextView headingView = label(heading, 20);
+        headingView.setGravity(Gravity.START);
+        headingView.setTextColor(Color.rgb(28, 58, 48));
+        headingView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        TextView subtitleView = label(subtitle, 14);
+        subtitleView.setGravity(Gravity.START);
+        subtitleView.setTextColor(Color.rgb(86, 105, 97));
+        copy.addView(headingView);
+        copy.addView(subtitleView, margins(dp(2)));
+        card.addView(copy, new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView arrow = label("›", 34);
+        arrow.setTextColor(coral());
+        card.addView(arrow);
+        card.setMinimumWidth(dp(280));
+        return card;
+    }
+
+    private TextView badge(String text) {
+        TextView badge = label(text.toUpperCase(), 12);
+        badge.setTextColor(green());
+        badge.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        badge.setLetterSpacing(0.08f);
+        badge.setPadding(dp(14), dp(6), dp(14), dp(6));
+        badge.setBackground(rounded(Color.rgb(230, 243, 235), dp(20), 0, 0));
+        return badge;
+    }
+
+    private StateListDrawable buttonSelector(int normal, int pressed, int radius) {
+        return buttonSelector(normal, pressed, radius, Color.TRANSPARENT, 0);
+    }
+
+    private StateListDrawable buttonSelector(int normal, int pressed, int radius,
+            int strokeColor, int strokeWidth) {
+        StateListDrawable selector = new StateListDrawable();
+        selector.addState(new int[]{android.R.attr.state_pressed},
+                rounded(pressed, radius, strokeColor, strokeWidth));
+        selector.addState(new int[]{}, rounded(normal, radius, strokeColor, strokeWidth));
+        return selector;
+    }
+
+    private GradientDrawable rounded(int color, int radius, int strokeColor, int strokeWidth) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(color);
+        drawable.setCornerRadius(radius);
+        if (strokeWidth > 0) {
+            drawable.setStroke(strokeWidth, strokeColor);
+        }
+        return drawable;
     }
 
     private TextView label(String text, int size) {
@@ -259,6 +375,10 @@ public final class MainActivity extends Activity {
 
     private int coral() {
         return Color.rgb(244, 124, 108);
+    }
+
+    private int cream() {
+        return Color.rgb(255, 248, 231);
     }
 
     private int dp(int value) {
