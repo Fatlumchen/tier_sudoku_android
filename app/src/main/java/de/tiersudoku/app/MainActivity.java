@@ -160,7 +160,11 @@ public final class MainActivity extends Activity {
                 cell.setTextSize(classicPuzzle.size == 9 ? 14 : 20);
                 cell.setPadding(0, 0, 0, 0);
                 boolean selected = row == selectedRow && column == selectedColumn;
-                cell.setBackgroundColor(selected ? coral() : value == 0 ? Color.WHITE : Color.rgb(220, 235, 225));
+                int fillColor = selected ? coral() : value == 0
+                        ? Color.WHITE : Color.rgb(220, 235, 225);
+                cell.setBackground(new SudokuCellDrawable(fillColor, Color.rgb(35, 74, 58),
+                        row, column, classicPuzzle.size, classicPuzzle.boxSize,
+                        getResources().getDisplayMetrics().density));
                 cell.setEnabled(value == 0);
                 cell.setOnClickListener(view -> {
                     selectedRow = cellRow;
@@ -168,7 +172,10 @@ public final class MainActivity extends Activity {
                     classicFeedback.setText(R.string.choose_number);
                     renderClassicBoard();
                 });
-                classicBoard.addView(cell, cellParams(cellSize, row, column, classicPuzzle.boxSize));
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+                params.width = cellSize;
+                params.height = cellSize;
+                classicBoard.addView(cell, params);
             }
         }
     }
@@ -258,4 +265,3 @@ public final class MainActivity extends Activity {
         return Math.round(value * getResources().getDisplayMetrics().density);
     }
 }
-
