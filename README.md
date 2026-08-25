@@ -28,6 +28,13 @@ kann zwischen zwei Spielarten gewählt werden:
 > aktivieren und unter Android **Einstellungen → Ton & Vibration → Medienlautstärke** prüfen.
 > Die App verwendet bewusst die Medien-/Spielaudio-Ausgabe und nicht die Klingeltonlautstärke.
 
+Eine projektspezifische Prüfung der noch offenen Sicherheits-, Familien- und
+Veröffentlichungsschritte steht in [`PLAY_STORE_CHECKLIST.md`](PLAY_STORE_CHECKLIST.md).
+Die App enthält außerdem auf dem Startbildschirm eine lokale Seite **Für Eltern &amp;
+Datenschutz** mit einer verständlichen Übersicht der aktuellen Datenverarbeitung.
+Als Ausgangspunkt für die noch zu veröffentlichende Webseite liegt außerdem
+[`PRIVACY_POLICY_TEMPLATE.md`](PRIVACY_POLICY_TEMPLATE.md) bei.
+
 ## Warum dieses MVP?
 
 - **Sofort verständlich:** keine Anmeldung, keine Texteingabe, kurze Spielrunden.
@@ -187,6 +194,6 @@ Die Testergebnisse liegen anschließend unter `app/build/reports/tests/`.
 
 1. Optionale tägliche Herausforderungen mit wechselnden Spielarten ergänzen.
 2. Weitere Abzeichen und kindgerechte Belohnungsanimationen ergänzen.
-3. Elternbereich mit einer für Kinder nicht lösbaren Schranke entwickeln.
+3. Datenschutz-/Eltern-Info entsprechend der Play-Store-Checkliste integrieren.
 4. Einmaligen In-App-Kauf über Google Play Billing integrieren.
 5. Barrierefreiheit, Geräte-Tests und eine deutsche Datenschutzerklärung abschließen.

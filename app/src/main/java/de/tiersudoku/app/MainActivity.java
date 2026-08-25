@@ -119,6 +119,30 @@ public final class MainActivity extends Activity {
         content.addView(actionButton(getString(R.string.my_progress), view -> showProgress()),
                 margins(dp(18)));
         content.addView(soundButton(), margins(dp(4)));
+        content.addView(secondaryButton(getString(R.string.parent_info), view -> showParentInfo()),
+                margins(dp(4)));
+        setPage(content);
+    }
+
+    private void showParentInfo() {
+        stopTimerWithoutResult();
+        LinearLayout content = page();
+        content.addView(badge(getString(R.string.parent_badge)), margins(dp(4)));
+        content.addView(title(getString(R.string.parent_info)), margins(dp(8)));
+        content.addView(label(getString(R.string.parent_intro), 16), margins(dp(6)));
+        content.addView(infoCard("🛡", getString(R.string.privacy_title),
+                getString(R.string.privacy_body)), margins(dp(8)));
+        content.addView(infoCard("📱", getString(R.string.local_data_title),
+                getString(R.string.local_data_body)), margins(dp(5)));
+        content.addView(infoCard("🚫", getString(R.string.no_ads_title),
+                getString(R.string.no_ads_body)), margins(dp(5)));
+        content.addView(infoCard("🔊", getString(R.string.audio_title),
+                getString(R.string.audio_body)), margins(dp(5)));
+        content.addView(infoCard("ℹ", getString(R.string.responsible_title),
+                getString(R.string.responsible_body)), margins(dp(5)));
+        content.addView(label(getString(R.string.parent_release_notice), 13), margins(dp(12)));
+        content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
+                margins(dp(14)));
         setPage(content);
     }
 
@@ -670,6 +694,38 @@ public final class MainActivity extends Activity {
         hintView.setTextColor(Color.rgb(86, 105, 97));
         copy.addView(headingView);
         copy.addView(hintView, margins(dp(1)));
+        card.addView(copy, new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        card.setMinimumWidth(dp(280));
+        return card;
+    }
+
+    private View infoCard(String icon, String heading, String body) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.TOP);
+        card.setPadding(dp(16), dp(15), dp(16), dp(15));
+        card.setBackground(rounded(Color.WHITE, dp(20), 0, 0));
+        card.setElevation(dp(3));
+
+        TextView iconView = label(icon, 24);
+        iconView.setGravity(Gravity.CENTER);
+        iconView.setBackground(rounded(Color.rgb(230, 243, 235), dp(15), 0, 0));
+        card.addView(iconView, new LinearLayout.LayoutParams(dp(54), dp(54)));
+
+        LinearLayout copy = new LinearLayout(this);
+        copy.setOrientation(LinearLayout.VERTICAL);
+        copy.setPadding(dp(14), 0, 0, 0);
+        TextView headingView = label(heading, 17);
+        headingView.setGravity(Gravity.START);
+        headingView.setTextColor(Color.rgb(28, 58, 48));
+        headingView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        TextView bodyView = label(body, 14);
+        bodyView.setGravity(Gravity.START);
+        bodyView.setTextColor(Color.rgb(74, 94, 86));
+        bodyView.setLineSpacing(0, 1.12f);
+        copy.addView(headingView);
+        copy.addView(bodyView, margins(dp(3)));
         card.addView(copy, new LinearLayout.LayoutParams(0,
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
         card.setMinimumWidth(dp(280));

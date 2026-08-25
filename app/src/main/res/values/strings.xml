@@ -69,4 +69,18 @@
     <string name="badge_stars_hint">Sammle 10 Tier-Sudoku-Sterne.</string>
     <string name="badge_streak_title">Fehlerfrei</string>
     <string name="badge_streak_hint">Schaffe eine Serie von 5 Runden.</string>
+    <string name="parent_info">Für Eltern &amp; Datenschutz</string>
+    <string name="parent_badge">Sicher &amp; transparent</string>
+    <string name="parent_intro">Die wichtigsten Informationen zur Nutzung dieser Kinder-App.</string>
+    <string name="privacy_title">Keine Datenübertragung</string>
+    <string name="privacy_body">Die App benötigt keine Internetverbindung und überträgt keine persönlichen Daten, Spielstände oder Geräteinformationen.</string>
+    <string name="local_data_title">Lokale Spielstände</string>
+    <string name="local_data_body">Sterne, Bestzeiten, gelöste Runden, Serien und die Toneinstellung werden ausschließlich im privaten App-Speicher dieses Geräts abgelegt. Durch Deinstallieren der App werden diese Daten entfernt.</string>
+    <string name="no_ads_title">Keine Werbung und kein Tracking</string>
+    <string name="no_ads_body">Diese Version enthält keine Werbung, keine Analysewerkzeuge, keine Tracker, keine Benutzerkonten und keine In-App-Käufe.</string>
+    <string name="audio_title">Töne</string>
+    <string name="audio_body">Kurze Rückmeldetöne werden direkt auf dem Gerät erzeugt. Es werden keine Audioaufnahmen erstellt oder übertragen. Die Töne können auf dem Startbildschirm ausgeschaltet werden.</string>
+    <string name="responsible_title">Verantwortlicher Entwickler</string>
+    <string name="responsible_body">Kontaktdaten und die öffentliche HTTPS-Datenschutzerklärung müssen vor der Veröffentlichung an dieser Stelle ergänzt werden.</string>
+    <string name="parent_release_notice">Hinweis: Diese Vorabversion ist noch nicht für die öffentliche Veröffentlichung bestimmt.</string>
 </resources>
