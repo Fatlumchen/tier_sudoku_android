@@ -30,4 +30,7 @@
     <string name="correct">Richtig! Weiter so.</string>
     <string name="wrong_number">Diese Zahl passt hier noch nicht.</string>
     <string name="sudoku_complete">Geschafft! Das Sudoku ist vollständig! 🎉</string>
+    <string name="current_time">⏱ Zeit: %1$s</string>
+    <string name="best_time">🏆 Beste: %1$s</string>
+    <string name="new_best_time">🏆 Neuer Rekord: %1$s</string>
 </resources>

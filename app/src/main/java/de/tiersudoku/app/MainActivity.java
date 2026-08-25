@@ -6,6 +6,9 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +22,7 @@ import java.util.Random;
 public final class MainActivity extends Activity {
     private static final String[] ANIMALS = {"🐶", "🐱", "🐰", "🦊"};
     private static final String STATE_STARS = "stars";
+    private static final String PREFS_STATS = "game_stats";
 
     private final GameEngine animalEngine = new GameEngine(new Random());
     private final ClassicSudokuEngine classicEngine = new ClassicSudokuEngine(new Random());
@@ -28,6 +32,23 @@ public final class MainActivity extends Activity {
     private int selectedColumn = -1;
     private GridLayout classicBoard;
     private TextView classicFeedback;
+    private final Handler timerHandler = new Handler(Looper.getMainLooper());
+    private TextView timerView;
+    private TextView bestTimeView;
+    private long timerStartedAt;
+    private String timerKey;
+    private boolean timerRunning;
+    private final Runnable timerTick = new Runnable() {
+        @Override
+        public void run() {
+            if (!timerRunning || timerView == null) {
+                return;
+            }
+            timerView.setText(getString(R.string.current_time,
+                    formatDuration(SystemClock.elapsedRealtime() - timerStartedAt)));
+            timerHandler.postDelayed(this, 100);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +65,14 @@ public final class MainActivity extends Activity {
         super.onSaveInstanceState(state);
     }
 
+    @Override
+    protected void onDestroy() {
+        stopTimerWithoutResult();
+        super.onDestroy();
+    }
+
     private void showGameSelection() {
+        stopTimerWithoutResult();
         LinearLayout content = page();
         content.addView(badge(getString(R.string.app_badge)), margins(dp(4)));
         content.addView(title(getString(R.string.choose_game)), margins(dp(8)));
@@ -57,6 +85,7 @@ public final class MainActivity extends Activity {
     }
 
     private void showSizeSelection() {
+        stopTimerWithoutResult();
         LinearLayout content = page();
         content.addView(badge(getString(R.string.classic_sudoku)), margins(dp(4)));
         content.addView(title(getString(R.string.choose_size)), margins(dp(8)));
@@ -80,6 +109,7 @@ public final class MainActivity extends Activity {
         progress.setBackground(rounded(Color.rgb(230, 243, 235), dp(18), 0, 0));
         progress.setPadding(dp(18), dp(7), dp(18), dp(7));
         content.addView(progress, margins(dp(6)));
+        content.addView(timerPanel(), margins(dp(4)));
         content.addView(label(getString(R.string.instruction), 22), margins(dp(8)));
 
         GridLayout board = new GridLayout(this);
@@ -99,6 +129,7 @@ public final class MainActivity extends Activity {
         content.addView(board, margins(dp(8)));
 
         TextView feedback = label("", 19);
+        boolean[] solved = {false};
         LinearLayout choices = new LinearLayout(this);
         choices.setGravity(Gravity.CENTER);
         for (int animal = 0; animal < ANIMALS.length; animal++) {
@@ -111,8 +142,10 @@ public final class MainActivity extends Activity {
             button.setElevation(dp(2));
             button.setContentDescription(getString(R.string.animal_button, ANIMALS[animal]));
             button.setOnClickListener(view -> {
-                if (puzzle.accepts(choice)) {
+                if (puzzle.accepts(choice) && !solved[0]) {
+                    solved[0] = true;
                     stars++;
+                    finishTimer();
                     feedback.setText(R.string.great);
                     feedback.setTextColor(green());
                     feedback.postDelayed(this::showAnimalGame, 900);
@@ -129,6 +162,7 @@ public final class MainActivity extends Activity {
         content.addView(secondaryButton(getString(R.string.back_to_selection), view -> showGameSelection()),
                 margins(dp(5)));
         setPage(content);
+        startTimer("animal");
     }
 
     private void showClassicGame(int boxSize) {
@@ -137,6 +171,7 @@ public final class MainActivity extends Activity {
         selectedColumn = -1;
         LinearLayout content = page();
         content.addView(title(getString(R.string.classic_title, classicPuzzle.size)), margins(dp(3)));
+        content.addView(timerPanel(), margins(dp(4)));
         content.addView(label(getString(R.string.classic_instruction), 17), margins(dp(5)));
         classicBoard = new GridLayout(this);
         classicBoard.setColumnCount(classicPuzzle.size);
@@ -165,6 +200,7 @@ public final class MainActivity extends Activity {
                 margins(dp(4)));
         setPage(content);
         renderClassicBoard();
+        startTimer("classic_" + boxSize);
     }
 
     private void renderClassicBoard() {
@@ -210,6 +246,9 @@ public final class MainActivity extends Activity {
             selectedRow = -1;
             selectedColumn = -1;
             classicFeedback.setText(classicPuzzle.isComplete() ? R.string.sudoku_complete : R.string.correct);
+            if (classicPuzzle.isComplete()) {
+                finishTimer();
+            }
             classicFeedback.setTextColor(green());
             renderClassicBoard();
         } else {
@@ -310,6 +349,70 @@ public final class MainActivity extends Activity {
         card.addView(arrow);
         card.setMinimumWidth(dp(280));
         return card;
+    }
+
+    private View timerPanel() {
+        LinearLayout panel = new LinearLayout(this);
+        panel.setOrientation(LinearLayout.HORIZONTAL);
+        panel.setGravity(Gravity.CENTER);
+        panel.setPadding(dp(5), dp(5), dp(5), dp(5));
+        panel.setBackground(rounded(Color.WHITE, dp(18), 0, 0));
+        panel.setElevation(dp(2));
+
+        timerView = statLabel(getString(R.string.current_time, "00:00.0"));
+        bestTimeView = statLabel(getString(R.string.best_time, "–"));
+        panel.addView(timerView);
+        panel.addView(bestTimeView);
+        return panel;
+    }
+
+    private TextView statLabel(String text) {
+        TextView view = label(text, 14);
+        view.setTextColor(Color.rgb(35, 74, 58));
+        view.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        view.setPadding(dp(14), dp(8), dp(14), dp(8));
+        return view;
+    }
+
+    private void startTimer(String key) {
+        stopTimerWithoutResult();
+        timerKey = key;
+        timerStartedAt = SystemClock.elapsedRealtime();
+        timerRunning = true;
+        long best = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getLong(key, 0);
+        bestTimeView.setText(getString(R.string.best_time, best == 0 ? "–" : formatDuration(best)));
+        timerTick.run();
+    }
+
+    private void finishTimer() {
+        if (!timerRunning) {
+            return;
+        }
+        long elapsed = SystemClock.elapsedRealtime() - timerStartedAt;
+        timerRunning = false;
+        timerHandler.removeCallbacks(timerTick);
+        timerView.setText(getString(R.string.current_time, formatDuration(elapsed)));
+
+        long best = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getLong(timerKey, 0);
+        if (best == 0 || elapsed < best) {
+            best = elapsed;
+            getSharedPreferences(PREFS_STATS, MODE_PRIVATE).edit().putLong(timerKey, best).apply();
+            bestTimeView.setText(getString(R.string.new_best_time, formatDuration(best)));
+        } else {
+            bestTimeView.setText(getString(R.string.best_time, formatDuration(best)));
+        }
+    }
+
+    private void stopTimerWithoutResult() {
+        timerRunning = false;
+        timerHandler.removeCallbacks(timerTick);
+    }
+
+    private String formatDuration(long milliseconds) {
+        long minutes = milliseconds / 60_000;
+        long seconds = milliseconds / 1_000 % 60;
+        long tenths = milliseconds / 100 % 10;
+        return String.format(java.util.Locale.GERMANY, "%02d:%02d.%d", minutes, seconds, tenths);
     }
 
     private TextView badge(String text) {
