@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tier-Sudoku</string>
+    <string name="headline">Tier-Sudoku</string>
+    <string name="instruction">Welches Tier fehlt?</string>
+    <string name="new_game">Neue Runde</string>
+    <string name="great">Super gemacht! 🎉</string>
+    <string name="try_again">Fast! Versuch es noch einmal.</string>
+    <string name="progress">Sterne: %1$d</string>
+    <string name="animal_button">Tier %1$s auswählen</string>
+</resources>
+
