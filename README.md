@@ -1,7 +1,13 @@
 # Tier-Sudoku
 
-Ein bewusst kleines, offline spielbares Android-MVP für Kinder: In einem 4×4-Raster
-fehlt ein Tier. Das Kind wählt das passende Tier aus und sammelt Sterne.
+Ein bewusst kleines, offline spielbares Android-MVP für Kinder. Auf dem Startbildschirm
+kann zwischen zwei Spielarten gewählt werden:
+
+- Beim **Tier-Sudoku** fehlt in einem 4×4-Raster ein Tier. Das Kind wählt das passende
+  Tier aus und sammelt Sterne.
+- Beim **klassischen Sudoku** werden Zahlen ergänzt. Zur Auswahl stehen eine leichte
+  Variante mit 2×2-Blöcken (4×4 Felder) und die bekannte Variante mit 3×3-Blöcken
+  (9×9 Felder).
 
 ## Warum dieses MVP?
 
@@ -161,7 +167,7 @@ Die Testergebnisse liegen anschließend unter `app/build/reports/tests/`.
 ## Sinnvolle nächste Schritte
 
 1. Illustrationen und Sounds mit klaren Nutzungsrechten ergänzen.
-2. Mehrere Schwierigkeitsstufen und lokale Fortschrittsspeicherung einbauen.
+2. Weitere Schwierigkeitsstufen und lokale Fortschrittsspeicherung einbauen.
 3. Elternbereich mit einer für Kinder nicht lösbaren Schranke entwickeln.
 4. Einmaligen In-App-Kauf über Google Play Billing integrieren.
 5. Barrierefreiheit, Geräte-Tests und eine deutsche Datenschutzerklärung abschließen.
