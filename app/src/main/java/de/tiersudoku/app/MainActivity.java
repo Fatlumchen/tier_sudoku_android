@@ -5,8 +5,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
+import android.media.AudioAttributes;
+import android.media.AudioFormat;
+import android.media.AudioTrack;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public final class MainActivity extends Activity {
@@ -42,7 +45,7 @@ public final class MainActivity extends Activity {
     private long timerStartedAt;
     private String timerKey;
     private boolean timerRunning;
-    private ToneGenerator toneGenerator;
+    private final List<AudioTrack> activeSounds = new ArrayList<>();
     private boolean soundEnabled;
     private final Runnable timerTick = new Runnable() {
         @Override
@@ -64,7 +67,6 @@ public final class MainActivity extends Activity {
         int restoredStars = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_STARS);
         stars = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getInt(PREFS_STARS, restoredStars);
         soundEnabled = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getBoolean(PREFS_SOUND, true);
-        toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 55);
         showGameSelection();
     }
 
@@ -77,10 +79,11 @@ public final class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         stopTimerWithoutResult();
-        if (toneGenerator != null) {
-            toneGenerator.release();
-            toneGenerator = null;
+        timerHandler.removeCallbacksAndMessages(null);
+        for (AudioTrack sound : activeSounds) {
+            sound.release();
         }
+        activeSounds.clear();
         super.onDestroy();
     }
 
@@ -402,15 +405,57 @@ public final class MainActivity extends Activity {
     }
 
     private void playSuccessSound() {
-        if (soundEnabled && toneGenerator != null) {
-            toneGenerator.startTone(ToneGenerator.TONE_PROP_ACK, 130);
-        }
+        playGeneratedTone(880, 170);
     }
 
     private void playErrorSound() {
-        if (soundEnabled && toneGenerator != null) {
-            toneGenerator.startTone(ToneGenerator.TONE_PROP_NACK, 110);
+        playGeneratedTone(220, 190);
+    }
+
+    private void playGeneratedTone(int frequency, int durationMs) {
+        if (!soundEnabled) {
+            return;
         }
+        int sampleRate = 44_100;
+        int sampleCount = sampleRate * durationMs / 1_000;
+        short[] samples = new short[sampleCount];
+        int fadeSamples = Math.min(sampleCount / 3, sampleRate / 100);
+        for (int index = 0; index < sampleCount; index++) {
+            double envelope = 1.0;
+            if (index < fadeSamples) {
+                envelope = (double) index / fadeSamples;
+            } else if (index >= sampleCount - fadeSamples) {
+                envelope = (double) (sampleCount - index - 1) / fadeSamples;
+            }
+            samples[index] = (short) (Math.sin(2.0 * Math.PI * frequency * index / sampleRate)
+                    * Short.MAX_VALUE * 0.38 * envelope);
+        }
+
+        AudioTrack sound = new AudioTrack.Builder()
+                .setAudioAttributes(new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build())
+                .setAudioFormat(new AudioFormat.Builder()
+                        .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                        .setSampleRate(sampleRate)
+                        .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
+                        .build())
+                .setBufferSizeInBytes(samples.length * 2)
+                .setTransferMode(AudioTrack.MODE_STATIC)
+                .build();
+        int written = sound.write(samples, 0, samples.length);
+        if (written <= 0 || sound.getState() != AudioTrack.STATE_INITIALIZED) {
+            sound.release();
+            return;
+        }
+        sound.setVolume(1f);
+        activeSounds.add(sound);
+        sound.play();
+        timerHandler.postDelayed(() -> {
+            sound.release();
+            activeSounds.remove(sound);
+        }, durationMs + 120L);
     }
 
     private View gameCard(String icon, String heading, String subtitle, View.OnClickListener listener) {

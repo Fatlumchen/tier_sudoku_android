@@ -12,9 +12,13 @@ kann zwischen zwei Spielarten gewählt werden:
   eine Lösung.
 - Unter **Meine Erfolge** zeigt die App dauerhaft gespeicherte Bestzeiten, gelöste
   Runden und gesammelte Sterne getrennt nach Spielart und Schwierigkeitsgrad an.
-- Kurze, direkt auf dem Gerät erzeugte Signaltöne geben Rückmeldung zu richtigen und
+- Kurze, direkt als PCM-Audio auf dem Gerät erzeugte Signaltöne geben Rückmeldung zu richtigen und
   falschen Antworten. Sie können auf dem Startbildschirm dauerhaft ausgeschaltet werden;
   es werden keine externen oder lizenzpflichtigen Audiodateien mitgeliefert.
+
+> Falls im Emulator kein Ton hörbar ist: Im Android-Emulator die Lautsprecher-Schaltfläche
+> aktivieren und unter Android **Einstellungen → Ton & Vibration → Medienlautstärke** prüfen.
+> Die App verwendet bewusst die Medien-/Spielaudio-Ausgabe und nicht die Klingeltonlautstärke.
 
 ## Warum dieses MVP?
 
