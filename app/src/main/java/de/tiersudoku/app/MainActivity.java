@@ -16,6 +16,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,7 +27,11 @@ import java.util.List;
 import java.util.Random;
 
 public final class MainActivity extends Activity {
-    private static final String[] ANIMALS = {"🐶", "🐱", "🐰", "🦊"};
+    private static final String[] ANIMAL_NAMES = {"Hund", "Katze", "Hase", "Fuchs"};
+    private static final int[] ANIMAL_DRAWABLES = {
+            R.drawable.animal_dog, R.drawable.animal_cat,
+            R.drawable.animal_rabbit, R.drawable.animal_fox
+    };
     private static final String STATE_STARS = "stars";
     private static final String PREFS_STATS = "game_stats";
     private static final String PREFS_STARS = "stars_total";
@@ -178,9 +184,21 @@ public final class MainActivity extends Activity {
         for (int row = 0; row < GameEngine.SIZE; row++) {
             for (int column = 0; column < GameEngine.SIZE; column++) {
                 boolean missing = row == puzzle.missingRow && column == puzzle.missingColumn;
-                TextView cell = label(missing ? "?" : ANIMALS[puzzle.valueAt(row, column)], 28);
-                cell.setGravity(Gravity.CENTER);
-                cell.setBackgroundColor(missing ? coral() : Color.WHITE);
+                View cell;
+                if (missing) {
+                    TextView missingCell = label("?", 28);
+                    missingCell.setTextColor(Color.WHITE);
+                    missingCell.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+                    missingCell.setBackgroundColor(coral());
+                    cell = missingCell;
+                } else {
+                    ImageView animal = new ImageView(this);
+                    animal.setImageResource(ANIMAL_DRAWABLES[puzzle.valueAt(row, column)]);
+                    animal.setPadding(dp(8), dp(8), dp(8), dp(8));
+                    animal.setBackgroundColor(Color.WHITE);
+                    animal.setContentDescription(ANIMAL_NAMES[puzzle.valueAt(row, column)]);
+                    cell = animal;
+                }
                 board.addView(cell, cellParams(dp(68), row, column, 2));
             }
         }
@@ -190,15 +208,15 @@ public final class MainActivity extends Activity {
         boolean[] solved = {false};
         LinearLayout choices = new LinearLayout(this);
         choices.setGravity(Gravity.CENTER);
-        for (int animal = 0; animal < ANIMALS.length; animal++) {
+        for (int animal = 0; animal < ANIMAL_DRAWABLES.length; animal++) {
             final int choice = animal;
-            Button button = new Button(this);
-            button.setText(ANIMALS[animal]);
-            button.setTextSize(29);
-            button.setAllCaps(false);
+            ImageButton button = new ImageButton(this);
+            button.setImageResource(ANIMAL_DRAWABLES[animal]);
+            button.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            button.setPadding(dp(10), dp(10), dp(10), dp(10));
             button.setBackground(buttonSelector(Color.WHITE, Color.rgb(242, 247, 244), dp(16)));
             button.setElevation(dp(2));
-            button.setContentDescription(getString(R.string.animal_button, ANIMALS[animal]));
+            button.setContentDescription(getString(R.string.animal_button, ANIMAL_NAMES[animal]));
             button.setOnClickListener(view -> {
                 if (puzzle.accepts(choice) && !solved[0]) {
                     solved[0] = true;

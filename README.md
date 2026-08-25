@@ -15,6 +15,9 @@ kann zwischen zwei Spielarten gewählt werden:
 - Kurze, direkt als PCM-Audio auf dem Gerät erzeugte Signaltöne geben Rückmeldung zu richtigen und
   falschen Antworten. Sie können auf dem Startbildschirm dauerhaft ausgeschaltet werden;
   es werden keine externen oder lizenzpflichtigen Audiodateien mitgeliefert.
+- Die vier Tierfiguren sind als eigens für das Projekt erstellte, skalierbare
+  Android-Vektorgrafiken enthalten. Dadurch bleiben sie auf allen Displaygrößen scharf
+  und benötigen keine extern lizenzierten Bilddateien.
 
 > Falls im Emulator kein Ton hörbar ist: Im Android-Emulator die Lautsprecher-Schaltfläche
 > aktivieren und unter Android **Einstellungen → Ton & Vibration → Medienlautstärke** prüfen.
@@ -177,7 +180,7 @@ Die Testergebnisse liegen anschließend unter `app/build/reports/tests/`.
 
 ## Sinnvolle nächste Schritte
 
-1. Eigene Tierillustrationen mit klar dokumentierten Nutzungsrechten ergänzen.
+1. Weitere Tierwelten und passende Hintergrundillustrationen ergänzen.
 2. Den vorhandenen lokalen Fortschritt um Serien und Abzeichen erweitern.
 3. Elternbereich mit einer für Kinder nicht lösbaren Schranke entwickeln.
 4. Einmaligen In-App-Kauf über Google Play Billing integrieren.
