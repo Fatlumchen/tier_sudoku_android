@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +26,7 @@ public final class MainActivity extends Activity {
     private static final String STATE_STARS = "stars";
     private static final String PREFS_STATS = "game_stats";
     private static final String PREFS_STARS = "stars_total";
+    private static final String PREFS_SOUND = "sound_enabled";
 
     private final GameEngine animalEngine = new GameEngine(new Random());
     private final ClassicSudokuEngine classicEngine = new ClassicSudokuEngine(new Random());
@@ -39,6 +42,8 @@ public final class MainActivity extends Activity {
     private long timerStartedAt;
     private String timerKey;
     private boolean timerRunning;
+    private ToneGenerator toneGenerator;
+    private boolean soundEnabled;
     private final Runnable timerTick = new Runnable() {
         @Override
         public void run() {
@@ -58,6 +63,8 @@ public final class MainActivity extends Activity {
         getWindow().setNavigationBarColor(cream());
         int restoredStars = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_STARS);
         stars = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getInt(PREFS_STARS, restoredStars);
+        soundEnabled = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getBoolean(PREFS_SOUND, true);
+        toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 55);
         showGameSelection();
     }
 
@@ -70,6 +77,10 @@ public final class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         stopTimerWithoutResult();
+        if (toneGenerator != null) {
+            toneGenerator.release();
+            toneGenerator = null;
+        }
         super.onDestroy();
     }
 
@@ -85,6 +96,7 @@ public final class MainActivity extends Activity {
                 getString(R.string.classic_subtitle), view -> showSizeSelection()), margins(dp(5)));
         content.addView(actionButton(getString(R.string.my_progress), view -> showProgress()),
                 margins(dp(18)));
+        content.addView(soundButton(), margins(dp(4)));
         setPage(content);
     }
 
@@ -191,10 +203,12 @@ public final class MainActivity extends Activity {
                     getSharedPreferences(PREFS_STATS, MODE_PRIVATE).edit()
                             .putInt(PREFS_STARS, stars).apply();
                     finishTimer();
+                    playSuccessSound();
                     feedback.setText(R.string.great);
                     feedback.setTextColor(green());
                     feedback.postDelayed(this::showAnimalGame, 900);
-                } else {
+                } else if (!solved[0]) {
+                    playErrorSound();
                     feedback.setText(R.string.try_again);
                     feedback.setTextColor(Color.rgb(170, 67, 55));
                 }
@@ -311,9 +325,11 @@ public final class MainActivity extends Activity {
             if (classicPuzzle.isComplete()) {
                 finishTimer();
             }
+            playSuccessSound();
             classicFeedback.setTextColor(green());
             renderClassicBoard();
         } else {
+            playErrorSound();
             classicFeedback.setText(R.string.wrong_number);
             classicFeedback.setTextColor(Color.rgb(170, 67, 55));
         }
@@ -370,6 +386,31 @@ public final class MainActivity extends Activity {
         button.setBackground(buttonSelector(Color.TRANSPARENT,
                 Color.rgb(230, 243, 235), dp(16), green(), dp(1)));
         return button;
+    }
+
+    private Button soundButton() {
+        String text = getString(soundEnabled ? R.string.sound_on : R.string.sound_off);
+        return secondaryButton(text, view -> {
+            soundEnabled = !soundEnabled;
+            getSharedPreferences(PREFS_STATS, MODE_PRIVATE).edit()
+                    .putBoolean(PREFS_SOUND, soundEnabled).apply();
+            ((Button) view).setText(soundEnabled ? R.string.sound_on : R.string.sound_off);
+            if (soundEnabled) {
+                playSuccessSound();
+            }
+        });
+    }
+
+    private void playSuccessSound() {
+        if (soundEnabled && toneGenerator != null) {
+            toneGenerator.startTone(ToneGenerator.TONE_PROP_ACK, 130);
+        }
+    }
+
+    private void playErrorSound() {
+        if (soundEnabled && toneGenerator != null) {
+            toneGenerator.startTone(ToneGenerator.TONE_PROP_NACK, 110);
+        }
     }
 
     private View gameCard(String icon, String heading, String subtitle, View.OnClickListener listener) {

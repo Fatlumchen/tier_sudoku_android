@@ -12,6 +12,9 @@ kann zwischen zwei Spielarten gewählt werden:
   eine Lösung.
 - Unter **Meine Erfolge** zeigt die App dauerhaft gespeicherte Bestzeiten, gelöste
   Runden und gesammelte Sterne getrennt nach Spielart und Schwierigkeitsgrad an.
+- Kurze, direkt auf dem Gerät erzeugte Signaltöne geben Rückmeldung zu richtigen und
+  falschen Antworten. Sie können auf dem Startbildschirm dauerhaft ausgeschaltet werden;
+  es werden keine externen oder lizenzpflichtigen Audiodateien mitgeliefert.
 
 ## Warum dieses MVP?
 
@@ -170,7 +173,7 @@ Die Testergebnisse liegen anschließend unter `app/build/reports/tests/`.
 
 ## Sinnvolle nächste Schritte
 
-1. Illustrationen und Sounds mit klaren Nutzungsrechten ergänzen.
+1. Eigene Tierillustrationen mit klar dokumentierten Nutzungsrechten ergänzen.
 2. Den vorhandenen lokalen Fortschritt um Serien und Abzeichen erweitern.
 3. Elternbereich mit einer für Kinder nicht lösbaren Schranke entwickeln.
 4. Einmaligen In-App-Kauf über Google Play Billing integrieren.

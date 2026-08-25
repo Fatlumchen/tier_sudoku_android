@@ -48,4 +48,6 @@
     <string name="progress_9_medium">9×9 · Mittel</string>
     <string name="progress_9_hard">9×9 · Schwer</string>
     <string name="progress_details">%1$d gelöst · Bestzeit %2$s</string>
+    <string name="sound_on">🔊 Töne an</string>
+    <string name="sound_off">🔇 Töne aus</string>
 </resources>
