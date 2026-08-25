@@ -62,11 +62,10 @@ Vor dem Upload fehlt noch:
 - ~~eine leicht erreichbare Datenschutz-/Info-Seite innerhalb der App;~~ umgesetzt;
 - eine Erklärung, dass Spielstände, Sterne, Bestzeiten, Serien und Toneinstellung nur
   lokal gespeichert werden und wie sie durch Löschen der App entfernt werden können;
-- Kontaktdaten des verantwortlichen Entwicklers.
+- ~~Kontaktdaten des verantwortlichen Entwicklers;~~ umgesetzt.
 
-Eine auszufüllende Ausgangsvorlage liegt in `PRIVACY_POLICY_TEMPLATE.md`. Sie ist noch
-keine veröffentlichungsfähige Datenschutzerklärung und muss vor Verwendung rechtlich
-und technisch geprüft sowie unter HTTPS bereitgestellt werden.
+Die ausgefüllte Ausgangsfassung liegt in `PRIVACY_POLICY.md`. Sie muss vor Verwendung
+noch rechtlich und technisch geprüft sowie unter HTTPS bereitgestellt werden.
 
 Sobald später Werbung, Crash Reporting, Analytics oder Billing ergänzt werden, muss
 die Datenerklärung erneut vollständig geprüft werden.
@@ -129,8 +128,8 @@ Elternbereich ergänzen.
 
 ## Empfohlene Release-Reihenfolge
 
-1. ~~Datenschutz-/Eltern-Info innerhalb der App ergänzen.~~ Grundversion umgesetzt;
-   vor Release noch echte Kontaktdaten und Datenschutz-URL einsetzen.
+1. ~~Datenschutz-/Eltern-Info innerhalb der App ergänzen.~~ Grundversion und echte
+   Kontaktdaten umgesetzt; vor Release noch die öffentliche Datenschutz-URL einsetzen.
 2. Datenschutzerklärung und Supportseite unter HTTPS veröffentlichen.
 3. Adaptives App-Icon, Store-Texte und Store-Grafiken erstellen.
 4. Release-AAB mit sicherem Upload-Schlüssel erzeugen.

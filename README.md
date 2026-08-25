@@ -32,8 +32,8 @@ Eine projektspezifische Prüfung der noch offenen Sicherheits-, Familien- und
 Veröffentlichungsschritte steht in [`PLAY_STORE_CHECKLIST.md`](PLAY_STORE_CHECKLIST.md).
 Die App enthält außerdem auf dem Startbildschirm eine lokale Seite **Für Eltern &amp;
 Datenschutz** mit einer verständlichen Übersicht der aktuellen Datenverarbeitung.
-Als Ausgangspunkt für die noch zu veröffentlichende Webseite liegt außerdem
-[`PRIVACY_POLICY_TEMPLATE.md`](PRIVACY_POLICY_TEMPLATE.md) bei.
+Die ausgefüllte Ausgangsfassung der noch unter HTTPS zu veröffentlichenden Erklärung
+liegt in [`PRIVACY_POLICY.md`](PRIVACY_POLICY.md).
 
 ## Warum dieses MVP?
 

@@ -81,6 +81,6 @@
     <string name="audio_title">Töne</string>
     <string name="audio_body">Kurze Rückmeldetöne werden direkt auf dem Gerät erzeugt. Es werden keine Audioaufnahmen erstellt oder übertragen. Die Töne können auf dem Startbildschirm ausgeschaltet werden.</string>
     <string name="responsible_title">Verantwortlicher Entwickler</string>
-    <string name="responsible_body">Kontaktdaten und die öffentliche HTTPS-Datenschutzerklärung müssen vor der Veröffentlichung an dieser Stelle ergänzt werden.</string>
-    <string name="parent_release_notice">Hinweis: Diese Vorabversion ist noch nicht für die öffentliche Veröffentlichung bestimmt.</string>
+    <string name="responsible_body">Fatljum Neziri\nKreuzbergstr. 78\n42897 Remscheid\nDeutschland\nE-Mail: f.neziri@gmx.de</string>
+    <string name="parent_release_notice">Hinweis: Vor der Veröffentlichung muss die Datenschutzerklärung noch unter einer öffentlichen HTTPS-Adresse bereitgestellt und im Play-Store-Eintrag verlinkt werden.</string>
 </resources>
