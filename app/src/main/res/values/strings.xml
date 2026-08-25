@@ -41,4 +41,11 @@
     <string name="current_time">⏱ Zeit: %1$s</string>
     <string name="best_time">🏆 Beste: %1$s</string>
     <string name="new_best_time">🏆 Neuer Rekord: %1$s</string>
+    <string name="my_progress">Meine Erfolge</string>
+    <string name="progress_badge">Dein Fortschritt</string>
+    <string name="total_stars">⭐ Insgesamt %1$d Sterne gesammelt</string>
+    <string name="progress_9_easy">9×9 · Leicht</string>
+    <string name="progress_9_medium">9×9 · Mittel</string>
+    <string name="progress_9_hard">9×9 · Schwer</string>
+    <string name="progress_details">%1$d gelöst · Bestzeit %2$s</string>
 </resources>

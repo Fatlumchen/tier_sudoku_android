@@ -10,6 +10,8 @@ kann zwischen zwei Spielarten gewählt werden:
   (9×9 Felder). Das 9×9-Sudoku bietet die Stufen Leicht, Mittel und Schwer. Zahlen,
   Zeilen und Spalten werden für jede Runde neu gemischt; jedes Rätsel besitzt genau
   eine Lösung.
+- Unter **Meine Erfolge** zeigt die App dauerhaft gespeicherte Bestzeiten, gelöste
+  Runden und gesammelte Sterne getrennt nach Spielart und Schwierigkeitsgrad an.
 
 ## Warum dieses MVP?
 
@@ -169,7 +171,7 @@ Die Testergebnisse liegen anschließend unter `app/build/reports/tests/`.
 ## Sinnvolle nächste Schritte
 
 1. Illustrationen und Sounds mit klaren Nutzungsrechten ergänzen.
-2. Weitere Schwierigkeitsstufen und lokale Fortschrittsspeicherung einbauen.
+2. Den vorhandenen lokalen Fortschritt um Serien und Abzeichen erweitern.
 3. Elternbereich mit einer für Kinder nicht lösbaren Schranke entwickeln.
 4. Einmaligen In-App-Kauf über Google Play Billing integrieren.
 5. Barrierefreiheit, Geräte-Tests und eine deutsche Datenschutzerklärung abschließen.

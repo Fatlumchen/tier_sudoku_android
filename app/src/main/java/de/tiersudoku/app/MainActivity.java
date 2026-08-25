@@ -23,6 +23,7 @@ public final class MainActivity extends Activity {
     private static final String[] ANIMALS = {"🐶", "🐱", "🐰", "🦊"};
     private static final String STATE_STARS = "stars";
     private static final String PREFS_STATS = "game_stats";
+    private static final String PREFS_STARS = "stars_total";
 
     private final GameEngine animalEngine = new GameEngine(new Random());
     private final ClassicSudokuEngine classicEngine = new ClassicSudokuEngine(new Random());
@@ -55,7 +56,8 @@ public final class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(Color.rgb(25, 67, 54));
         getWindow().setNavigationBarColor(cream());
-        stars = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_STARS);
+        int restoredStars = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_STARS);
+        stars = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getInt(PREFS_STARS, restoredStars);
         showGameSelection();
     }
 
@@ -81,6 +83,27 @@ public final class MainActivity extends Activity {
                 getString(R.string.animal_subtitle), view -> showAnimalGame()), margins(dp(20)));
         content.addView(gameCard("123", getString(R.string.classic_sudoku),
                 getString(R.string.classic_subtitle), view -> showSizeSelection()), margins(dp(5)));
+        content.addView(actionButton(getString(R.string.my_progress), view -> showProgress()),
+                margins(dp(18)));
+        setPage(content);
+    }
+
+    private void showProgress() {
+        stopTimerWithoutResult();
+        LinearLayout content = page();
+        content.addView(badge(getString(R.string.progress_badge)), margins(dp(4)));
+        content.addView(title(getString(R.string.my_progress)), margins(dp(8)));
+        content.addView(label(getString(R.string.total_stars, stars), 17), margins(dp(5)));
+        content.addView(progressCard("🐾", getString(R.string.animal_sudoku), "animal"), margins(dp(14)));
+        content.addView(progressCard("4×4", getString(R.string.small_sudoku), "classic_2"), margins(dp(5)));
+        content.addView(progressCard("★", getString(R.string.progress_9_easy),
+                "classic_3_easy"), margins(dp(5)));
+        content.addView(progressCard("★★", getString(R.string.progress_9_medium),
+                "classic_3_medium"), margins(dp(5)));
+        content.addView(progressCard("★★★", getString(R.string.progress_9_hard),
+                "classic_3_hard"), margins(dp(5)));
+        content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
+                margins(dp(18)));
         setPage(content);
     }
 
@@ -165,6 +188,8 @@ public final class MainActivity extends Activity {
                 if (puzzle.accepts(choice) && !solved[0]) {
                     solved[0] = true;
                     stars++;
+                    getSharedPreferences(PREFS_STATS, MODE_PRIVATE).edit()
+                            .putInt(PREFS_STARS, stars).apply();
                     finishTimer();
                     feedback.setText(R.string.great);
                     feedback.setTextColor(green());
@@ -403,6 +428,43 @@ public final class MainActivity extends Activity {
         return panel;
     }
 
+    private View progressCard(String icon, String heading, String key) {
+        android.content.SharedPreferences stats = getSharedPreferences(PREFS_STATS, MODE_PRIVATE);
+        int completed = stats.getInt(key + "_completed", 0);
+        long best = stats.getLong(key, 0);
+
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(dp(16), dp(14), dp(16), dp(14));
+        card.setBackground(rounded(Color.WHITE, dp(20), 0, 0));
+        card.setElevation(dp(3));
+
+        TextView iconView = label(icon, icon.length() > 3 ? 17 : 23);
+        iconView.setTextColor(green());
+        iconView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        iconView.setBackground(rounded(Color.rgb(230, 243, 235), dp(15), 0, 0));
+        card.addView(iconView, new LinearLayout.LayoutParams(dp(58), dp(58)));
+
+        LinearLayout copy = new LinearLayout(this);
+        copy.setOrientation(LinearLayout.VERTICAL);
+        copy.setPadding(dp(14), 0, 0, 0);
+        TextView headingView = label(heading, 17);
+        headingView.setGravity(Gravity.START);
+        headingView.setTextColor(Color.rgb(28, 58, 48));
+        headingView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        TextView detailView = label(getString(R.string.progress_details, completed,
+                best == 0 ? "–" : formatDuration(best)), 14);
+        detailView.setGravity(Gravity.START);
+        detailView.setTextColor(Color.rgb(86, 105, 97));
+        copy.addView(headingView);
+        copy.addView(detailView, margins(dp(2)));
+        card.addView(copy, new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        card.setMinimumWidth(dp(280));
+        return card;
+    }
+
     private TextView statLabel(String text) {
         TextView view = label(text, 14);
         view.setTextColor(Color.rgb(35, 74, 58));
@@ -430,10 +492,13 @@ public final class MainActivity extends Activity {
         timerHandler.removeCallbacks(timerTick);
         timerView.setText(getString(R.string.current_time, formatDuration(elapsed)));
 
-        long best = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getLong(timerKey, 0);
+        android.content.SharedPreferences stats = getSharedPreferences(PREFS_STATS, MODE_PRIVATE);
+        int completed = stats.getInt(timerKey + "_completed", 0) + 1;
+        stats.edit().putInt(timerKey + "_completed", completed).apply();
+        long best = stats.getLong(timerKey, 0);
         if (best == 0 || elapsed < best) {
             best = elapsed;
-            getSharedPreferences(PREFS_STATS, MODE_PRIVATE).edit().putLong(timerKey, best).apply();
+            stats.edit().putLong(timerKey, best).apply();
             bestTimeView.setText(getString(R.string.new_best_time, formatDuration(best)));
         } else {
             bestTimeView.setText(getString(R.string.best_time, formatDuration(best)));
