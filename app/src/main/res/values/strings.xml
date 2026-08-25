@@ -50,4 +50,16 @@
     <string name="progress_details">%1$d gelöst · Bestzeit %2$s</string>
     <string name="sound_on">🔊 Töne an</string>
     <string name="sound_off">🔇 Töne aus</string>
+    <string name="current_streak">🔥 Serie: %1$d</string>
+    <string name="best_streak">Rekordserie: %1$d</string>
+    <string name="achievements">Deine Abzeichen</string>
+    <string name="badge_unlocked">Freigeschaltet!</string>
+    <string name="badge_first_title">Erster Erfolg</string>
+    <string name="badge_first_hint">Löse deine erste Runde.</string>
+    <string name="badge_five_title">Rätsel-Entdecker</string>
+    <string name="badge_five_hint">Löse insgesamt 5 Runden.</string>
+    <string name="badge_stars_title">Sternesammler</string>
+    <string name="badge_stars_hint">Sammle 10 Tier-Sudoku-Sterne.</string>
+    <string name="badge_streak_title">Fehlerfrei</string>
+    <string name="badge_streak_hint">Schaffe eine Serie von 5 Runden.</string>
 </resources>

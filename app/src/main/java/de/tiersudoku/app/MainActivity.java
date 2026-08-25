@@ -36,6 +36,9 @@ public final class MainActivity extends Activity {
     private static final String PREFS_STATS = "game_stats";
     private static final String PREFS_STARS = "stars_total";
     private static final String PREFS_SOUND = "sound_enabled";
+    private static final String PREFS_TOTAL_COMPLETED = "total_completed";
+    private static final String PREFS_CURRENT_STREAK = "current_streak";
+    private static final String PREFS_BEST_STREAK = "best_streak";
 
     private final GameEngine animalEngine = new GameEngine(new Random());
     private final ClassicSudokuEngine classicEngine = new ClassicSudokuEngine(new Random());
@@ -115,6 +118,9 @@ public final class MainActivity extends Activity {
         content.addView(badge(getString(R.string.progress_badge)), margins(dp(4)));
         content.addView(title(getString(R.string.my_progress)), margins(dp(8)));
         content.addView(label(getString(R.string.total_stars, stars), 17), margins(dp(5)));
+        android.content.SharedPreferences stats = getSharedPreferences(PREFS_STATS, MODE_PRIVATE);
+        content.addView(streakPanel(stats.getInt(PREFS_CURRENT_STREAK, 0),
+                stats.getInt(PREFS_BEST_STREAK, 0)), margins(dp(6)));
         content.addView(progressCard("🐾", getString(R.string.animal_sudoku), "animal"), margins(dp(14)));
         content.addView(progressCard("4×4", getString(R.string.small_sudoku), "classic_2"), margins(dp(5)));
         content.addView(progressCard("★", getString(R.string.progress_9_easy),
@@ -123,6 +129,17 @@ public final class MainActivity extends Activity {
                 "classic_3_medium"), margins(dp(5)));
         content.addView(progressCard("★★★", getString(R.string.progress_9_hard),
                 "classic_3_hard"), margins(dp(5)));
+        content.addView(sectionTitle(getString(R.string.achievements)), margins(dp(16)));
+        int totalCompleted = stats.getInt(PREFS_TOTAL_COMPLETED, 0);
+        content.addView(achievementCard("🌱", getString(R.string.badge_first_title),
+                getString(R.string.badge_first_hint), totalCompleted >= 1), margins(dp(4)));
+        content.addView(achievementCard("🧩", getString(R.string.badge_five_title),
+                getString(R.string.badge_five_hint), totalCompleted >= 5), margins(dp(4)));
+        content.addView(achievementCard("⭐", getString(R.string.badge_stars_title),
+                getString(R.string.badge_stars_hint), stars >= 10), margins(dp(4)));
+        content.addView(achievementCard("🔥", getString(R.string.badge_streak_title),
+                getString(R.string.badge_streak_hint), stats.getInt(PREFS_BEST_STREAK, 0) >= 5),
+                margins(dp(4)));
         content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
                 margins(dp(18)));
         setPage(content);
@@ -229,6 +246,7 @@ public final class MainActivity extends Activity {
                     feedback.setTextColor(green());
                     feedback.postDelayed(this::showAnimalGame, 900);
                 } else if (!solved[0]) {
+                    resetCurrentStreak();
                     playErrorSound();
                     feedback.setText(R.string.try_again);
                     feedback.setTextColor(Color.rgb(170, 67, 55));
@@ -350,6 +368,7 @@ public final class MainActivity extends Activity {
             classicFeedback.setTextColor(green());
             renderClassicBoard();
         } else {
+            resetCurrentStreak();
             playErrorSound();
             classicFeedback.setText(R.string.wrong_number);
             classicFeedback.setTextColor(Color.rgb(170, 67, 55));
@@ -569,6 +588,56 @@ public final class MainActivity extends Activity {
         return card;
     }
 
+    private View streakPanel(int current, int best) {
+        LinearLayout panel = new LinearLayout(this);
+        panel.setOrientation(LinearLayout.HORIZONTAL);
+        panel.setGravity(Gravity.CENTER);
+        panel.setPadding(dp(10), dp(9), dp(10), dp(9));
+        panel.setBackground(rounded(Color.rgb(255, 239, 218), dp(18), 0, 0));
+        TextView currentView = statLabel(getString(R.string.current_streak, current));
+        TextView bestView = statLabel(getString(R.string.best_streak, best));
+        panel.addView(currentView);
+        panel.addView(bestView);
+        return panel;
+    }
+
+    private TextView sectionTitle(String text) {
+        TextView view = label(text, 21);
+        view.setTextColor(Color.rgb(28, 58, 48));
+        view.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        return view;
+    }
+
+    private View achievementCard(String icon, String heading, String hint, boolean unlocked) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(dp(15), dp(12), dp(15), dp(12));
+        card.setBackground(rounded(unlocked ? Color.WHITE : Color.rgb(239, 241, 240),
+                dp(18), unlocked ? Color.rgb(244, 124, 108) : Color.TRANSPARENT,
+                unlocked ? dp(1) : 0));
+        card.setAlpha(unlocked ? 1f : 0.62f);
+        card.setElevation(unlocked ? dp(3) : 0);
+
+        TextView iconView = label(unlocked ? icon : "🔒", 25);
+        card.addView(iconView, new LinearLayout.LayoutParams(dp(52), dp(52)));
+        LinearLayout copy = new LinearLayout(this);
+        copy.setOrientation(LinearLayout.VERTICAL);
+        TextView headingView = label(heading, 17);
+        headingView.setGravity(Gravity.START);
+        headingView.setTextColor(Color.rgb(28, 58, 48));
+        headingView.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        TextView hintView = label(unlocked ? getString(R.string.badge_unlocked) : hint, 13);
+        hintView.setGravity(Gravity.START);
+        hintView.setTextColor(Color.rgb(86, 105, 97));
+        copy.addView(headingView);
+        copy.addView(hintView, margins(dp(1)));
+        card.addView(copy, new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        card.setMinimumWidth(dp(280));
+        return card;
+    }
+
     private TextView statLabel(String text) {
         TextView view = label(text, 14);
         view.setTextColor(Color.rgb(35, 74, 58));
@@ -598,7 +667,15 @@ public final class MainActivity extends Activity {
 
         android.content.SharedPreferences stats = getSharedPreferences(PREFS_STATS, MODE_PRIVATE);
         int completed = stats.getInt(timerKey + "_completed", 0) + 1;
-        stats.edit().putInt(timerKey + "_completed", completed).apply();
+        int totalCompleted = stats.getInt(PREFS_TOTAL_COMPLETED, 0) + 1;
+        int streak = stats.getInt(PREFS_CURRENT_STREAK, 0) + 1;
+        int bestStreak = Math.max(streak, stats.getInt(PREFS_BEST_STREAK, 0));
+        stats.edit()
+                .putInt(timerKey + "_completed", completed)
+                .putInt(PREFS_TOTAL_COMPLETED, totalCompleted)
+                .putInt(PREFS_CURRENT_STREAK, streak)
+                .putInt(PREFS_BEST_STREAK, bestStreak)
+                .apply();
         long best = stats.getLong(timerKey, 0);
         if (best == 0 || elapsed < best) {
             best = elapsed;
@@ -607,6 +684,11 @@ public final class MainActivity extends Activity {
         } else {
             bestTimeView.setText(getString(R.string.best_time, formatDuration(best)));
         }
+    }
+
+    private void resetCurrentStreak() {
+        getSharedPreferences(PREFS_STATS, MODE_PRIVATE).edit()
+                .putInt(PREFS_CURRENT_STREAK, 0).apply();
     }
 
     private void stopTimerWithoutResult() {
