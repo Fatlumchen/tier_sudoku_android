@@ -65,9 +65,10 @@ Vor dem Upload fehlt noch:
 - ~~Kontaktdaten des verantwortlichen Entwicklers;~~ umgesetzt.
 
 Die ausgefüllte Ausgangsfassung liegt in `PRIVACY_POLICY.md`; eine statische Webfassung
-liegt unter `docs/`. Nach dem Push muss GitHub Pages noch für den veröffentlichten
-Branch und den Ordner `/docs` aktiviert, die HTTPS-Adresse geprüft und anschließend in
-der Play Console eingetragen werden.
+liegt unter `docs/`. Der Workflow `.github/workflows/pages.yml` veröffentlicht diesen
+Ordner automatisch bei Änderungen auf `main`. In **Settings → Pages** muss einmalig
+**Source: GitHub Actions** gewählt, der erfolgreiche Workflow geprüft und die danach
+erreichbare HTTPS-Adresse in der Play Console eingetragen werden.
 
 Sobald später Werbung, Crash Reporting, Analytics oder Billing ergänzt werden, muss
 die Datenerklärung erneut vollständig geprüft werden.

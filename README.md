@@ -43,11 +43,28 @@ erreichbar.
 
 1. Das Repository zu GitHub pushen.
 2. Auf GitHub **Settings → Pages** öffnen.
-3. Unter **Build and deployment** die Quelle **Deploy from a branch** wählen.
-4. Den veröffentlichten Branch und als Ordner **`/docs`** auswählen.
-5. **Save** drücken und einige Minuten auf die angezeigte HTTPS-Adresse warten.
-6. `datenschutz.html` im Browser öffnen und erst nach erfolgreicher Prüfung als
+3. Unter **Build and deployment → Source** die Option **GitHub Actions** wählen.
+4. Unter **Actions** den Workflow **Datenschutzseite veröffentlichen** öffnen. Falls er
+   noch nicht automatisch lief, **Run workflow** wählen und den Branch `main` starten.
+5. Warten, bis der Workflow und insbesondere der Schritt **GitHub Pages bereitstellen**
+   grün abgeschlossen sind.
+6. Die unter **Settings → Pages** angezeigte Adresse öffnen. Die erste Bereitstellung
+   kann einige Minuten dauern; ein 404 davor ist normal.
+7. `datenschutz.html` im Browser öffnen und erst nach erfolgreicher Prüfung als
    Datenschutz-URL in der Play Console eintragen.
+
+#### Wenn weiterhin „404 – Page not found“ erscheint
+
+1. Prüfen, ob `docs/index.html` und `docs/datenschutz.html` wirklich auf dem GitHub-Branch
+   `main` sichtbar sind. Lokale, noch nicht gepushte Dateien kann GitHub Pages nicht sehen.
+2. Unter **Actions** prüfen, ob der Pages-Workflow grün ist. Bei einem roten Lauf die
+   Fehlermeldung öffnen, statt die URL erneut zu laden.
+3. Unter **Settings → Pages** sicherstellen, dass **Source: GitHub Actions** ausgewählt ist.
+4. Genau diese URLs verwenden (Repository-Name inklusive Unterstrichen):
+   - `https://fatlumchen.github.io/tier_sudoku_android/`
+   - `https://fatlumchen.github.io/tier_sudoku_android/datenschutz.html`
+5. Nach einem erfolgreichen ersten Deployment zwei bis zehn Minuten warten und die
+   Seite in einem privaten Browserfenster erneut öffnen.
 
 ## Warum dieses MVP?
 
