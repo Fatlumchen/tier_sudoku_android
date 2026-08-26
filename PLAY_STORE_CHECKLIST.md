@@ -64,8 +64,10 @@ Vor dem Upload fehlt noch:
   lokal gespeichert werden und wie sie durch Löschen der App entfernt werden können;
 - ~~Kontaktdaten des verantwortlichen Entwicklers;~~ umgesetzt.
 
-Die ausgefüllte Ausgangsfassung liegt in `PRIVACY_POLICY.md`. Sie muss vor Verwendung
-noch rechtlich und technisch geprüft sowie unter HTTPS bereitgestellt werden.
+Die ausgefüllte Ausgangsfassung liegt in `PRIVACY_POLICY.md`; eine statische Webfassung
+liegt unter `docs/`. Nach dem Push muss GitHub Pages noch für den veröffentlichten
+Branch und den Ordner `/docs` aktiviert, die HTTPS-Adresse geprüft und anschließend in
+der Play Console eingetragen werden.
 
 Sobald später Werbung, Crash Reporting, Analytics oder Billing ergänzt werden, muss
 die Datenerklärung erneut vollständig geprüft werden.

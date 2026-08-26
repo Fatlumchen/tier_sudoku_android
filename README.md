@@ -34,6 +34,20 @@ Die App enthält außerdem auf dem Startbildschirm eine lokale Seite **Für Elte
 Datenschutz** mit einer verständlichen Übersicht der aktuellen Datenverarbeitung.
 Die ausgefüllte Ausgangsfassung der noch unter HTTPS zu veröffentlichenden Erklärung
 liegt in [`PRIVACY_POLICY.md`](PRIVACY_POLICY.md).
+Eine fertige statische Support- und Datenschutzseite für GitHub Pages liegt unter
+[`docs/`](docs/). Nach Aktivierung von GitHub Pages ist die Datenschutzseite
+voraussichtlich unter `https://fatlumchen.github.io/tier_sudoku_android/datenschutz.html`
+erreichbar.
+
+### Kostenlose Webseite mit GitHub Pages aktivieren
+
+1. Das Repository zu GitHub pushen.
+2. Auf GitHub **Settings → Pages** öffnen.
+3. Unter **Build and deployment** die Quelle **Deploy from a branch** wählen.
+4. Den veröffentlichten Branch und als Ordner **`/docs`** auswählen.
+5. **Save** drücken und einige Minuten auf die angezeigte HTTPS-Adresse warten.
+6. `datenschutz.html` im Browser öffnen und erst nach erfolgreicher Prüfung als
+   Datenschutz-URL in der Play Console eintragen.
 
 ## Warum dieses MVP?
 
