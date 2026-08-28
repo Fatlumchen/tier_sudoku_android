@@ -46,6 +46,7 @@ Informationen zu Datenschutz und lokaler Speicherung.
 
 ## Vorgesehene Store-Angaben
 
+- **Application ID:** `de.fatljumneziri.tiersudoku`
 - **Kategorie:** Spiele → Geduldsspiele / Puzzle
 - **Enthält Werbung:** Nein
 - **In-App-Käufe:** Nein (aktueller Release-Stand)
@@ -67,4 +68,3 @@ Informationen zu Datenschutz und lokaler Speicherung.
 Für jeden Screenshot nur tatsächlich vorhandene Funktionen zeigen. Keine Preise,
 Premium-Inhalte oder Werbefreiheitsvergleiche darstellen, solange es keine Kaufversion
 gibt.
-

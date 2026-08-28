@@ -112,6 +112,7 @@ Elternbereich ergänzen.
 - `versionCode` für jeden Upload erhöhen und `versionName` sinnvoll pflegen.
 - Einen eindeutigen, dauerhaft beibehaltenen `applicationId` verwenden. Eine nach der
   Veröffentlichung geänderte App-ID wird von Google Play als neue App behandelt.
+  Für dieses Projekt ist `de.fatljumneziri.tiersudoku` als endgültige ID festgelegt.
 - Pre-Launch-Report, automatisierte Gerätetests und Warnungen der Play Console ohne
   kritische Fehler abschließen.
 

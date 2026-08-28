@@ -24,6 +24,10 @@ kann zwischen zwei Spielarten gewählt werden:
   **Unterwasserwelt** mit insgesamt zwölf eigenen Vektortieren, eigener Farbwelt und
   getrennten Bestzeiten.
 
+Die dauerhaft vorgesehene Android-Application-ID lautet
+`de.fatljumneziri.tiersudoku`. **Tier-Sudoku** bleibt dabei der Markenname der App;
+das klassische Zahlen-Sudoku ist eine zusätzliche Spielart innerhalb derselben App.
+
 > Falls im Emulator kein Ton hörbar ist: Im Android-Emulator die Lautsprecher-Schaltfläche
 > aktivieren und unter Android **Einstellungen → Ton & Vibration → Medienlautstärke** prüfen.
 > Die App verwendet bewusst die Medien-/Spielaudio-Ausgabe und nicht die Klingeltonlautstärke.
@@ -184,14 +188,14 @@ tier_sudoku_android/                 ← diesen Ordner in Android Studio öffnen
     └── src/
         ├── main/
         │   ├── AndroidManifest.xml   ← App- und Start-Activity-Registrierung
-        │   ├── java/de/tiersudoku/app/
+        │   ├── java/de/fatljumneziri/tiersudoku/
         │   │   ├── MainActivity.java ← Oberfläche und Benutzerinteraktion
         │   │   └── GameEngine.java   ← Rätselerzeugung und Antwortprüfung
         │   └── res/values/
         │       ├── strings.xml       ← sichtbare Texte
         │       ├── colors.xml        ← Farbdefinitionen
         │       └── themes.xml        ← Erscheinungsbild der App
-        └── test/java/de/tiersudoku/app/
+        └── test/java/de/fatljumneziri/tiersudoku/
             └── GameEngineTest.java   ← lokale Unit-Tests
 ```
 
@@ -201,18 +205,18 @@ Am einfachsten ist es, **dieses Repository direkt zu öffnen**. Wenn du die Date
 trotzdem in ein bereits vorhandenes Projekt übernehmen willst:
 
 1. Kopiere `MainActivity.java` und `GameEngine.java` nach
-   `app/src/main/java/de/tiersudoku/app/`.
+   `app/src/main/java/de/fatljumneziri/tiersudoku/`.
 2. Kopiere die drei XML-Dateien nach `app/src/main/res/values/` und ersetze dort
    gleichnamige Dateien nur, wenn du deren bisherigen Inhalt nicht mehr brauchst.
 3. Übernimm den Inhalt von `AndroidManifest.xml` nach `app/src/main/AndroidManifest.xml`.
 4. Gleiche `app/build.gradle.kts` mit dem vorhandenen Modul ab. Nicht blind ersetzen,
    falls dein Projekt bereits zusätzliche Plugins oder Abhängigkeiten enthält.
 5. Achte darauf, dass `namespace`, `applicationId` und die erste Zeile der Java-Dateien
-   zusammenpassen. Dieses Projekt verwendet überall `de.tiersudoku.app`.
-6. Lege den Test unter `app/src/test/java/de/tiersudoku/app/` ab.
+   zusammenpassen. Dieses Projekt verwendet überall `de.fatljumneziri.tiersudoku`.
+6. Lege den Test unter `app/src/test/java/de/fatljumneziri/tiersudoku/` ab.
 
 Wenn du einen anderen Paketnamen möchtest, musst du gleichzeitig den Ordner unter
-`java/`, die `package de.tiersudoku.app;`-Zeilen in allen Java-Dateien sowie
+`java/`, die `package de.fatljumneziri.tiersudoku;`-Zeilen in allen Java-Dateien sowie
 `namespace` und `applicationId` in `app/build.gradle.kts` ändern.
 
 ## Tests
