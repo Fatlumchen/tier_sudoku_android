@@ -38,6 +38,9 @@ Eine fertige statische Support- und Datenschutzseite für GitHub Pages liegt unt
 [`docs/`](docs/). Nach Aktivierung von GitHub Pages ist die Datenschutzseite
 voraussichtlich unter `https://fatlumchen.github.io/tier_sudoku_android/datenschutz.html`
 erreichbar.
+Der vorbereitete deutsche Play-Store-Text und die Screenshot-Liste liegen in
+[`STORE_LISTING_DE.md`](STORE_LISTING_DE.md). Die App enthält außerdem ein adaptives
+Launcher-Icon für moderne Android-Geräte und passende Fallback-Icons.
 
 ### Kostenlose Webseite mit GitHub Pages aktivieren
 

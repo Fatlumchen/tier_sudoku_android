@@ -118,9 +118,11 @@ Elternbereich ergänzen.
 ## Noch fehlende Store- und Rechtsinhalte
 
 - endgültiger App-Name und eindeutige Paket-/Markenprüfung;
-- hochauflösendes App-Symbol und adaptives Launcher-Icon;
+- ~~adaptives Launcher-Icon;~~ umgesetzt; das 512×512-Store-Icon muss noch aus der
+  Vektorquelle exportiert und in der Play Console geprüft werden;
 - Feature-Grafik sowie echte Smartphone-/Tablet-Screenshots;
-- kurze und vollständige Store-Beschreibung;
+- ~~Entwurf für kurze und vollständige Store-Beschreibung;~~ in `STORE_LISTING_DE.md`
+  umgesetzt und vor Einreichung noch final zu prüfen;
 - Support-E-Mail und optional Support-Webseite;
 - öffentlich erreichbare Datenschutzerklärung;
 - Anbieterkennzeichnung/Impressum entsprechend Land und Vertriebsmodell;
@@ -134,7 +136,8 @@ Elternbereich ergänzen.
 1. ~~Datenschutz-/Eltern-Info innerhalb der App ergänzen.~~ Grundversion und echte
    Kontaktdaten umgesetzt; vor Release noch die öffentliche Datenschutz-URL einsetzen.
 2. Datenschutzerklärung und Supportseite unter HTTPS veröffentlichen.
-3. Adaptives App-Icon, Store-Texte und Store-Grafiken erstellen.
+3. ~~Adaptives App-Icon und Store-Texte erstellen.~~ Umgesetzt; Store-Icon exportieren,
+   Feature-Grafik und echte Gerätescreenshots fehlen noch.
 4. Release-AAB mit sicherem Upload-Schlüssel erzeugen.
 5. Internen Test und anschließend geschlossenen Test durchführen.
 6. Pre-Launch-Report, Richtlinienformulare und Datensicherheit korrigieren.
