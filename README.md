@@ -41,6 +41,9 @@ erreichbar.
 Der vorbereitete deutsche Play-Store-Text und die Screenshot-Liste liegen in
 [`STORE_LISTING_DE.md`](STORE_LISTING_DE.md). Die App enthält außerdem ein adaptives
 Launcher-Icon für moderne Android-Geräte und passende Fallback-Icons.
+Editierbare Quellen für das 512×512-Store-Icon und die 1024×500-Feature-Grafik liegen
+unter [`store-assets/`](store-assets/); Export- und Screenshot-Hinweise stehen in
+[`STORE_ASSET_GUIDE.md`](STORE_ASSET_GUIDE.md).
 
 ### Kostenlose Webseite mit GitHub Pages aktivieren
 

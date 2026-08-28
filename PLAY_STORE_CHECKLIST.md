@@ -120,7 +120,9 @@ Elternbereich ergänzen.
 - endgültiger App-Name und eindeutige Paket-/Markenprüfung;
 - ~~adaptives Launcher-Icon;~~ umgesetzt; das 512×512-Store-Icon muss noch aus der
   Vektorquelle exportiert und in der Play Console geprüft werden;
-- Feature-Grafik sowie echte Smartphone-/Tablet-Screenshots;
+- ~~editierbare Quellen für Store-Icon und Feature-Grafik;~~ unter `store-assets/`
+  umgesetzt; PNG-Export, visuelle Endkontrolle und echte Smartphone-/Tablet-Screenshots
+  fehlen noch;
 - ~~Entwurf für kurze und vollständige Store-Beschreibung;~~ in `STORE_LISTING_DE.md`
   umgesetzt und vor Einreichung noch final zu prüfen;
 - Support-E-Mail und optional Support-Webseite;
