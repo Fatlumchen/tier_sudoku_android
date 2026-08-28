@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Tier-Sudoku App-Symbol</title>
+  <desc id="desc">Cremefarbenes Sudoku-Raster mit korallfarbener Tierpfote auf dunkelgrünem Hintergrund.</desc>
+  <rect width="512" height="512" rx="108" fill="#234a3a"/>
+  <rect x="82" y="82" width="348" height="348" rx="58" fill="#fff8e7"/>
+  <g fill="none" stroke="#39765b" stroke-width="17">
+    <path d="M198 82v348M314 82v348M82 198h348M82 314h348"/>
+  </g>
+  <g fill="#f47c6c">
+    <ellipse cx="256" cy="276" rx="52" ry="62"/>
+    <ellipse cx="173" cy="223" rx="27" ry="35" transform="rotate(-28 173 223)"/>
+    <ellipse cx="223" cy="181" rx="27" ry="35" transform="rotate(-10 223 181)"/>
+    <ellipse cx="289" cy="181" rx="27" ry="35" transform="rotate(10 289 181)"/>
+    <ellipse cx="339" cy="223" rx="27" ry="35" transform="rotate(28 339 223)"/>
+  </g>
+</svg>
+
