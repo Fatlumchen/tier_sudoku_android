@@ -188,14 +188,14 @@ tier_sudoku_android/                 ← diesen Ordner in Android Studio öffnen
     └── src/
         ├── main/
         │   ├── AndroidManifest.xml   ← App- und Start-Activity-Registrierung
-        │   ├── java/de/fatljumneziri/tiersudoku/
+        │   ├── java/de/tiersudoku/app/
         │   │   ├── MainActivity.java ← Oberfläche und Benutzerinteraktion
         │   │   └── GameEngine.java   ← Rätselerzeugung und Antwortprüfung
         │   └── res/values/
         │       ├── strings.xml       ← sichtbare Texte
         │       ├── colors.xml        ← Farbdefinitionen
         │       └── themes.xml        ← Erscheinungsbild der App
-        └── test/java/de/fatljumneziri/tiersudoku/
+        └── test/java/de/tiersudoku/app/
             └── GameEngineTest.java   ← lokale Unit-Tests
 ```
 
@@ -205,19 +205,19 @@ Am einfachsten ist es, **dieses Repository direkt zu öffnen**. Wenn du die Date
 trotzdem in ein bereits vorhandenes Projekt übernehmen willst:
 
 1. Kopiere `MainActivity.java` und `GameEngine.java` nach
-   `app/src/main/java/de/fatljumneziri/tiersudoku/`.
+   `app/src/main/java/de/tiersudoku/app/`.
 2. Kopiere die drei XML-Dateien nach `app/src/main/res/values/` und ersetze dort
    gleichnamige Dateien nur, wenn du deren bisherigen Inhalt nicht mehr brauchst.
 3. Übernimm den Inhalt von `AndroidManifest.xml` nach `app/src/main/AndroidManifest.xml`.
 4. Gleiche `app/build.gradle.kts` mit dem vorhandenen Modul ab. Nicht blind ersetzen,
    falls dein Projekt bereits zusätzliche Plugins oder Abhängigkeiten enthält.
-5. Achte darauf, dass `namespace`, `applicationId` und die erste Zeile der Java-Dateien
-   zusammenpassen. Dieses Projekt verwendet überall `de.fatljumneziri.tiersudoku`.
-6. Lege den Test unter `app/src/test/java/de/fatljumneziri/tiersudoku/` ab.
+5. Behalte `namespace` und die Java-`package`-Zeilen als `de.tiersudoku.app` bei. Die
+   öffentliche Play-Store-ID `de.fatljumneziri.tiersudoku` steht ausschließlich bei
+   `applicationId`; beide Werte dürfen sich absichtlich unterscheiden.
+6. Lege den Test unter `app/src/test/java/de/tiersudoku/app/` ab.
 
-Wenn du einen anderen Paketnamen möchtest, musst du gleichzeitig den Ordner unter
-`java/`, die `package de.fatljumneziri.tiersudoku;`-Zeilen in allen Java-Dateien sowie
-`namespace` und `applicationId` in `app/build.gradle.kts` ändern.
+Die Trennung verhindert unnötige Java- und `R`-Klassenfehler bei einer Änderung der
+Play-Store-ID. Nur `applicationId` bestimmt die Identität der installierten App.
 
 ## Tests
 

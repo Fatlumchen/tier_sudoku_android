@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "de.fatljumneziri.tiersudoku"
+    namespace = "de.tiersudoku.app"
     compileSdk = 35
 
     defaultConfig {
