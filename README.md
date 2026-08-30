@@ -221,6 +221,34 @@ Die vollständig qualifizierte Activity im Manifest und der ausdrückliche `R`-I
 verhindern, dass Android Studio die Klassen anhand des falschen Pakets sucht. Nur
 `applicationId` bestimmt die Identität der installierten App.
 
+### Warum Android Studio manche Dateien zweimal anzeigt
+
+Im Repository gibt es **nur eine** selbst geschriebene `MainActivity`:
+
+```text
+app/src/main/java/de/tiersudoku/app/MainActivity.java
+```
+
+Der Eintrag `java (generated)` in Android Studio enthält automatisch erzeugte
+Klassen wie `R` und ist keine zweite `MainActivity`. Falls Android Studio nach einer
+Paketverschiebung noch einen alten Eintrag anzeigt, zuerst **File → Sync Project with
+Gradle Files** und danach **Build → Clean Project** ausführen. In der Projektansicht
+`Project` lässt sich anschließend kontrollieren, dass nur der oben genannte Pfad
+existiert.
+
+Die zwei Dateien namens `build.gradle.kts` sind dagegen beabsichtigt und haben
+unterschiedliche Aufgaben:
+
+```text
+build.gradle.kts       Projektweite Plugin-Versionen
+app/build.gradle.kts   Android-Konfiguration des App-Moduls
+```
+
+Sie sind also keine doppelten Dateien. Für den Release-Build sind im Modul sowohl
+Code-Minimierung als auch Ressourcenverkleinerung aktiviert. Die Hinweise auf eine
+neuere `compileSdk`- oder `targetSdk`-Version sind Android-Studio-Warnungen und nicht
+derselbe Buildfehler.
+
 ## Tests
 
 Im Projekt-Hauptordner ausführen:
