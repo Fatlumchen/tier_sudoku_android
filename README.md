@@ -211,13 +211,15 @@ trotzdem in ein bereits vorhandenes Projekt übernehmen willst:
 3. Übernimm den Inhalt von `AndroidManifest.xml` nach `app/src/main/AndroidManifest.xml`.
 4. Gleiche `app/build.gradle.kts` mit dem vorhandenen Modul ab. Nicht blind ersetzen,
    falls dein Projekt bereits zusätzliche Plugins oder Abhängigkeiten enthält.
-5. Behalte `namespace` und die Java-`package`-Zeilen als `de.tiersudoku.app` bei. Die
-   öffentliche Play-Store-ID `de.fatljumneziri.tiersudoku` steht ausschließlich bei
-   `applicationId`; beide Werte dürfen sich absichtlich unterscheiden.
+5. `namespace` und `applicationId` verwenden `de.fatljumneziri.tiersudoku`. Die
+   vorhandenen Java-Dateien bleiben aus Kompatibilitätsgründen im Paket
+   `de.tiersudoku.app`; `MainActivity` importiert die erzeugte `R`-Klasse deshalb
+   ausdrücklich aus dem neuen Namespace.
 6. Lege den Test unter `app/src/test/java/de/tiersudoku/app/` ab.
 
-Die Trennung verhindert unnötige Java- und `R`-Klassenfehler bei einer Änderung der
-Play-Store-ID. Nur `applicationId` bestimmt die Identität der installierten App.
+Die vollständig qualifizierte Activity im Manifest und der ausdrückliche `R`-Import
+verhindern, dass Android Studio die Klassen anhand des falschen Pakets sucht. Nur
+`applicationId` bestimmt die Identität der installierten App.
 
 ## Tests
 

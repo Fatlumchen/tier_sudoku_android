@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "de.tiersudoku.app"
+    namespace = "de.fatljumneziri.tiersudoku"
     compileSdk = 35
 
     defaultConfig {
@@ -32,4 +32,3 @@ android {
 dependencies {
     testImplementation("junit:junit:4.13.2")
 }
-

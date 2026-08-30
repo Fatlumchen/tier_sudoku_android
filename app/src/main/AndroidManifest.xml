@@ -9,7 +9,7 @@
         android:theme="@style/Theme.TierSudoku"
         android:usesCleartextTraffic="false">
         <activity
-            android:name=".MainActivity"
+            android:name="de.tiersudoku.app.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
