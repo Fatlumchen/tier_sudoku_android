@@ -11,6 +11,7 @@ import android.media.AudioAttributes;
 import android.media.AudioFormat;
 import android.media.AudioTrack;
 import android.os.Bundle;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -83,8 +84,13 @@ public final class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setStatusBarColor(Color.rgb(25, 67, 54));
+        getWindow().setStatusBarColor(getColor(R.color.background_top));
         getWindow().setNavigationBarColor(cream());
+        int systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+        }
+        getWindow().getDecorView().setSystemUiVisibility(systemUiVisibility);
         int restoredStars = savedInstanceState == null ? 0 : savedInstanceState.getInt(STATE_STARS);
         stars = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getInt(PREFS_STARS, restoredStars);
         soundEnabled = getSharedPreferences(PREFS_STATS, MODE_PRIVATE).getBoolean(PREFS_SOUND, true);
@@ -156,15 +162,15 @@ public final class MainActivity extends Activity {
         content.addView(gameCard("🏡", getString(R.string.world_pets),
                 getString(R.string.world_pets_hint),
                 view -> showAnimalGame(PET_NAMES, PET_DRAWABLES, "animal",
-                        getString(R.string.world_pets), Color.rgb(239, 248, 243))), margins(dp(14)));
+                        getString(R.string.world_pets), Color.rgb(239, 248, 243))), cardMargins());
         content.addView(gameCard("🌾", getString(R.string.world_farm),
                 getString(R.string.world_farm_hint),
                 view -> showAnimalGame(FARM_NAMES, FARM_DRAWABLES, "animal_farm",
-                        getString(R.string.world_farm), Color.rgb(255, 245, 218))), margins(dp(5)));
+                        getString(R.string.world_farm), Color.rgb(255, 245, 218))), cardMargins());
         content.addView(gameCard("🌊", getString(R.string.world_ocean),
                 getString(R.string.world_ocean_hint),
                 view -> showAnimalGame(OCEAN_NAMES, OCEAN_DRAWABLES, "animal_ocean",
-                        getString(R.string.world_ocean), Color.rgb(225, 245, 251))), margins(dp(5)));
+                        getString(R.string.world_ocean), Color.rgb(225, 245, 251))), cardMargins());
         content.addView(secondaryButton(getString(R.string.back), view -> showGameSelection()),
                 margins(dp(18)));
         setPage(content);
@@ -454,8 +460,19 @@ public final class MainActivity extends Activity {
     private void setPage(LinearLayout content) {
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
+        scroll.setBackgroundColor(cream());
+        scroll.setClipToPadding(false);
+        scroll.setOnApplyWindowInsetsListener((view, insets) -> {
+            view.setPadding(
+                    insets.getSystemWindowInsetLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetRight(),
+                    insets.getSystemWindowInsetBottom());
+            return insets;
+        });
         scroll.addView(content);
         setContentView(scroll);
+        scroll.requestApplyInsets();
         content.setAlpha(0f);
         content.setTranslationY(dp(8));
         content.animate().alpha(1f).translationY(0f).setDuration(220).start();
@@ -853,6 +870,13 @@ public final class MainActivity extends Activity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, vertical, 0, vertical);
+        return params;
+    }
+
+    private LinearLayout.LayoutParams cardMargins() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, dp(7), 0, dp(7));
         return params;
     }
 
